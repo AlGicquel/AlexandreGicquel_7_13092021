@@ -6,7 +6,7 @@
             <li><a href="">Login</a></li>
             <li><a href="">Sign up</a></li>
         </ul> -->
-        <div id="nav">
+        <div id="nav" class="banner sticky-top">
             <router-link to="/"><img src="../../public/logos/icon-left-font.png" alt="Logo Groupomania"></router-link>
             <router-link to="/">Posts</router-link> |
             <router-link to="/login">Login</router-link>
@@ -22,8 +22,12 @@
         margin: 20px auto;
 
     }
-    .nav{
+
+    #nav{
+        display: flex;
         justify-content: space-between;
+        background-color: white;
+        padding: 20px 0;
     }
     router-link:nth-child(1){
         display: flex;
