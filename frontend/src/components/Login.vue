@@ -2,7 +2,7 @@
     <div class="">
         <div class="form">
             <h1>Connection</h1>
-            <form action="post">
+            <form action="">
                 <div class="form-group">
                     <label for="UserName">
                         Username : <input type="text" class="form-control">

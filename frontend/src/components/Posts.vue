@@ -1,7 +1,8 @@
 <template>
     <div class="">
         <CreatePost/>
-        <div class="post-card" v-for="post of posts" :key="post">
+        <hr>
+        <!-- <div class="post-card" v-for="post of posts" :key="post">
             <h2>{{ post.author }}</h2>
             <p>{{ post.text }}</p>
 
@@ -15,17 +16,22 @@
                 <p>{{ comment.text }}</p>
             </div>
             <CreatePost v-if="comment === true"/>
-        </div>
+        </div> -->
+        
+        <PostCard v-for="post of posts" :key="post" :postProp="post"  />
     </div>
 </template>
 
 <script>
     import {mapState} from 'vuex'
     import CreatePost from './CreatePost.vue'
+    import PostCard from './PostCard.vue'
+
     export default {
         name: 'Posts',
         components: {
-            CreatePost
+            CreatePost,
+            PostCard
         },
         data () {
             return {
