@@ -2,23 +2,7 @@
     <div class="">
         <CreatePost/>
         <hr>
-        <!-- <div class="post-card" v-for="post of posts" :key="post">
-            <h2>{{ post.author }}</h2>
-            <p>{{ post.text }}</p>
-
-            <div class="buttons">
-                <button class="btn btn-outline-danger">Like</button>
-                <button class="btn btn-outline-danger" @click="toggleComment">Comment</button>
-            </div>
-            <h3>Comments</h3>
-            <div class="comment" v-for="comment of post.comments" :key="comment">
-                <h4>{{ comment.author }}</h4>
-                <p>{{ comment.text }}</p>
-            </div>
-            <CreatePost v-if="comment === true"/>
-        </div> -->
-        
-        <PostCard v-for="post of posts" :key="post" :postProp="post"  />
+        <PostCard v-for="(post, i) of posts" :key="post" :postProp="post"  :index="i"/>
     </div>
 </template>
 
@@ -54,7 +38,7 @@
     }
 </script>
 
-<style>
+<style >
     * {
         text-align: left;
     }
@@ -70,9 +54,7 @@
         text-align: justify;
     }
 
-    .btn-outline-danger {
-        background-color: white;
-    }
+    
 
     .buttons {
         display: flex;

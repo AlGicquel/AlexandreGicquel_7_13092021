@@ -1,11 +1,5 @@
 <template>
     <div class="container">
-        <!-- <h1>Groupomania</h1> -->
-        <!-- <ul class="navbar">
-            <li><a href=""><img src="../../public/logos/icon-left-font.png" alt="Logo Groupomania"></a></li>
-            <li><a href="">Login</a></li>
-            <li><a href="">Sign up</a></li>
-        </ul> -->
         <div id="nav" class="banner sticky-top">
             <router-link to="/"><img src="../../public/logos/icon-left-font.png" alt="Logo Groupomania"></router-link>
             <router-link to="/">Posts</router-link> |

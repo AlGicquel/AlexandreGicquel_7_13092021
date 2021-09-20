@@ -14,5 +14,7 @@
 </template>
 
 <style scoped>
-    
+    .btn-outline-danger {
+        background-color: white;
+    }
 </style>
