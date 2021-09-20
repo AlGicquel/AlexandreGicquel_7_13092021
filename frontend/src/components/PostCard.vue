@@ -1,19 +1,24 @@
 <template>
     <div class="post-card">
-        <h2>{{ postProp.author }}</h2>
-        <p>{{ postProp.text }}</p>
+        <h2 class="comment-author">{{ postProp.author }}</h2>
+        <p class="comment-text">{{ postProp.text }}</p>
 
         <div class="buttons">
             <button class="btn btn-outline-danger">Like</button>
+            <!-- Bouton qui fait apparaitre et disparaitre la div d'ajout de commentaire -->
             <button class="btn btn-outline-danger" @click="toggleNewComment" id="comment-button">Comment</button>
         </div>
+
+        <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
         <div class="comments" v-if="postProp.comments.length !== 0">
             <h3>Comments</h3>
-            <div class="comment" v-for="comment of postProp.comments" :key="comment">
-                <h4>{{ comment.author }}</h4>
-                <p>{{ comment.text }}</p>
+            <div class="comment" v-for="(comment, i) of postProp.comments" :key="i">
+                <h4 class="comment-author">{{ comment.author }}</h4>
+                <p class="comment-text">{{ comment.text }}</p>
             </div>
         </div>
+
+        <!-- affiche et fait disparaitre le composant de commentaire -->
         <div class="comment-form" :id="index">
             <CreatePost v-if="comment"/>
         </div>
@@ -28,6 +33,7 @@
         name: 'PostCard',
         data () {
             return {
+                // gère l'affichage de la div de nouveau commentaire
                 comment: false,
             }
 
@@ -36,13 +42,10 @@
             
         },
         methods: {
+            // gère l'affichage et l'animation de la div de nouveau commentaire
             toggleNewComment () {
                 this.comment = !this.comment;
-                this.toggleActive();
-            },
-            toggleActive() {
                 document.getElementById(`${this.index}`).classList.toggle('active');
-
             }
         },
         props:{

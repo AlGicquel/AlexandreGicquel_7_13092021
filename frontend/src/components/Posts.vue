@@ -1,8 +1,10 @@
 <template>
     <div class="">
+        <!-- Composant de création de post -->
         <CreatePost/>
         <hr>
-        <PostCard v-for="(post, i) of posts" :key="post" :postProp="post"  :index="i"/>
+        <!-- Loop sur la liste de post pour créer un composant pour chaque -->
+        <PostCard v-for="(post, i) of posts" :key="i" :postProp="post"  :index="i"/>
     </div>
 </template>
 
@@ -23,14 +25,7 @@
             }
         },
         methods: {
-            toggleComment () {
-                if (this.comment === true) {
-                    this.comment = false;
-                }
-                if (this.comment === false) {
-                    this.comment = true;
-                }
-            }
+            
         },
         computed: {
             ...mapState(['posts'])
@@ -53,8 +48,6 @@
     p {
         text-align: justify;
     }
-
-    
 
     .buttons {
         display: flex;

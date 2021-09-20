@@ -1,9 +1,11 @@
 <template>
     <div class="container">
+        <!-- Bannière sticky top avec la nav et la routeur -->
         <div id="nav" class="banner sticky-top">
             <router-link to="/"><img src="../../public/logos/icon-left-font.png" alt="Logo Groupomania"></router-link>
             <router-link to="/">Posts</router-link> |
-            <router-link to="/login">Login</router-link>
+            <router-link to="/login">Login</router-link> |
+            <router-link to="/user">User</router-link>
         </div>
         <router-view/>
     </div>
@@ -35,14 +37,11 @@
 </style>
 
 <script>
-    // import Posts from './Posts.vue'
-    // import Login from './Login.vue'
 
     export default {
         name: 'Header',
         components: {
-            // Login,
-            // Posts
+
         }
 }
 </script>
