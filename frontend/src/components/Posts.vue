@@ -43,6 +43,7 @@
         background-color: rgba(255, 214, 214, 1);
         padding: 20px;
         margin: 20px auto;
+        box-shadow: 0 0 10px rgba(255, 214, 214, 1);
     }
 
     p {

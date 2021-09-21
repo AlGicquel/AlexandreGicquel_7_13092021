@@ -3,6 +3,10 @@
         <h2 class="comment-author">{{ postProp.author }}</h2>
         <p class="comment-text">{{ postProp.text }}</p>
 
+        <div class="like-comment-infos">
+            <span class="likes-comments-short">{{ postProp.likes.length }} likes</span>
+        </div>
+
         <div class="buttons">
             <button class="btn btn-outline-danger">Like</button>
             <!-- Bouton qui fait apparaitre et disparaitre la div d'ajout de commentaire -->
@@ -11,12 +15,15 @@
 
         <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
         <div class="comments" v-if="postProp.comments.length !== 0">
-            <h3>Comments</h3>
+            <h3>Comments ({{ postProp.comments.length }})</h3>
             <div class="comment" v-for="(comment, i) of postProp.comments" :key="i">
                 <h4 class="comment-author">{{ comment.author }}</h4>
                 <p class="comment-text">{{ comment.text }}</p>
             </div>
+            <!-- <Comment  v-for="(commentIdLoop, i) of postProp.commentsIds" :key="i" :commentId="commentIdLoop"/> -->
         </div>
+
+
 
         <!-- affiche et fait disparaitre le composant de commentaire -->
         <div class="comment-form" :id="index">
@@ -28,6 +35,7 @@
 <script>
 
     import CreatePost from './CreatePost.vue'
+    // import Comment from './Comment.vue'
 
     export default {
         name: 'PostCard',
@@ -52,12 +60,14 @@
             postProp: {
                 author: String,
                 text: String,
-                comments: Array
+                comments: Array,
+                likes: Array
             },
             index: Number
         },
         components: {
-            CreatePost
+            CreatePost,
+            // Comment
         }
 
     }
