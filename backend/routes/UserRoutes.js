@@ -3,46 +3,46 @@ const router = express.Router();
 const db = require('../models');
 
 router.get('/', (req, res) => {
-    db.Post.findAll()
-        .then( posts => res.send(posts))
+    db.User.findAll()
+        .then( users => res.send(users))
         .catch( error => console.log(error));
 });
 
 router.get('/:id', (req, res) => {
-    db.Post.findAll({
+    db.User.findAll({
         where: {
             id: req.params.id
         }
-    }).then( post => res.send(post))
+    }).then( user => res.send(user))
     .catch(error => console.log(error))
 });
 
 router.post('/', (req, res) => {
-    db.Post.create({
-        text: req.body.text
+    db.User.create({
+        username: req.body.text
     })
-        .then(submittedPost => res.send(submittedPost))
+        .then(submittedUser => res.send(submittedUser))
         .catch(error => console.log(error))
 });
 
 router.put('/:id', (req, res) => {
-    db.Post.update(
+    db.User.update(
         {
-            text: req.body.text
+            username: req.body.text
         },
         {
             where: { id:req.params.id }
         }
-    ).then(res.send('Post successfully modified'))
+    ).then(res.send('User successfully modified'))
     .catch(error => console.log(error))
 });
 
 router.delete('/:id', (req, res) => {
-    db.Post.destroy({
+    db.User.destroy({
         where: {
             id: req.params.id
         }
-    }).then(res.send('Post successfully deleted'))
+    }).then(res.send('User successfully deleted'))
     .catch(error => console.log(error))
 });
 
