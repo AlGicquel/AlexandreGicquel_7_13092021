@@ -1,4 +1,5 @@
 const sequelize = require("sequelize");
+const User = require("./User");
 
 module.exports = (sequelize, DataTypes) => {
     const post = sequelize.define("Post", {
@@ -8,5 +9,14 @@ module.exports = (sequelize, DataTypes) => {
         }
 
     });
+    
+    post.associate = models => {
+        post.belongsTo(models.User, {
+            foreignKey: {
+                allowNull: false
+            }
+        });
+    };
+
     return post;
 }

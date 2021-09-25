@@ -5,8 +5,21 @@ module.exports = (sequelize, DataTypes) => {
         text: {
             type: DataTypes.STRING,
             allowNull: false
-        }
-
+        },
     });
+
+    comment.associate = models => {
+        comment.belongsTo(models.Post, {
+            foreignKey: {
+                allowNull: false
+            }
+        });
+    };
+
+    // comment.associate = models => {
+    //     comment.belongsTo(models.User, {
+    //         onDelete: 'cascade'
+    //     });
+    // };
     return comment;
 }
