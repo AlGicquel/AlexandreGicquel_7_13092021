@@ -7,6 +7,18 @@ exports.getAllUsers =(req, res) => {
         .catch( error => console.log(error))
 };
 
+exports.getUsernameById = (req, res) => {
+    db.User.findAll({
+        attributes: [
+            'username'
+        ],
+        where: {
+            id: req.params.id
+        }
+    }).then( user => res.send(user))
+    .catch(error => console.log(error));
+};
+
 exports.getOneUser = (req, res) => {
     db.User.findAll({
         where: {

@@ -4,7 +4,7 @@ const db = require('../models');
 const PostCtrl = require('../controllers/PostCtrl');
 
 router.get('/', PostCtrl.getAllPosts);
-router.get('/allByUserId/:UserId', PostCtrl.getAllPostsByUserId)
+router.get('/allByUserId/:UserId', PostCtrl.getAllPostsByUserId);
 router.get('/:id', PostCtrl.getOnePost);
 router.post('/', PostCtrl.postPost);
 router.put('/:id', PostCtrl.putPost);

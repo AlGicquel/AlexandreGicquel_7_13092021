@@ -19,6 +19,9 @@
             CreatePost,
             PostCard
         },
+        beforeCreate() {
+
+        },
         data () {
             return {
                 comment:false

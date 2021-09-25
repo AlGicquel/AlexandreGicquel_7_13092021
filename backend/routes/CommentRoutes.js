@@ -4,6 +4,8 @@ const db = require('../models');
 const CommentCtrl = require('../controllers/CommentCtrl')
 
 router.get('/', CommentCtrl.getAllComments);
+router.get('/allByUserId/:UserId', CommentCtrl.getAllCommentsByUserId);
+router.get('/allByPostId/:PostId', CommentCtrl.getAllCommentsByPostId);
 router.get('/:id', CommentCtrl.getOneComment);
 router.post('/', CommentCtrl.postComment);
 router.put('/:id', CommentCtrl.putComment);

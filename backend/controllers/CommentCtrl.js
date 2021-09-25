@@ -7,6 +7,24 @@ exports.getAllComments = (req, res) => {
         .catch( error => console.log(error));
 };
 
+exports.getAllCommentsByPostId = (req, res) => {
+    db.Comment.findAll({
+        where: {
+            PostId: req.params.PostId
+        }
+    }).then( comment => res.send(comment))
+    .catch(error => console.log(error))
+};
+
+exports.getAllCommentsByUserId =(req, res) => {
+    db.Comment.findAll({
+        where: {
+            UserId: req.params.UserId
+        }
+    }).then( comment => res.send(comment))
+    .catch(error => console.log(error))
+};
+
 exports.getOneComment =(req, res) => {
     db.Comment.findAll({
         where: {
@@ -18,7 +36,9 @@ exports.getOneComment =(req, res) => {
 
 exports.postComment = (req, res) => {
     db.Comment.create({
-        text: req.body.text
+        text: req.body.text,
+        UserId: req.body.UserId,
+        PostId: req.body.PostId
     })
         .then(submittedComment => res.send(submittedComment))
         .catch(error => console.log(error))
@@ -27,7 +47,7 @@ exports.postComment = (req, res) => {
 exports.putComment = (req, res) => {
     db.Comment.update(
         {
-            text: req.body.text
+            text: req.body.text,
         },
         {
             where: { id:req.params.id }
