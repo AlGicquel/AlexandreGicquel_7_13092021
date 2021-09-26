@@ -6,6 +6,15 @@ const PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Contourne les erreur de cors
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    // console.log(req.headers.authorization);
+    next();
+  });
+
 const PostRoutes = require('./routes/PostRoutes');
 const UserRoutes = require('./routes/UserRoutes');
 const CommentRoutes = require('./routes/CommentRoutes');

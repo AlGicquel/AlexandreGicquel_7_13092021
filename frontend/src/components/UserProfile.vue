@@ -1,19 +1,18 @@
 <template>
     <div class="">
-        <h1>{{ users[0].username }}</h1>
+        <h1></h1>
         <CreatePost/>
         <hr>
         <div class="posts">
-            <div class="post" v-for="(id, i) of users[0].postsIds" :key="i">
+            <!-- <div class="post" v-for="(id, i) of users[0].postsIds" :key="i">
                 <PostCard :postProp="posts[id]" :index="i"/>
 
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
 
 <script>
-    import {mapState} from 'vuex'
     import CreatePost from './CreatePost.vue'
     import PostCard from './PostCard.vue'
 
@@ -32,8 +31,6 @@
             
         },
         computed: {
-            ...mapState(['users']),
-            ...mapState(['posts'])
 
         }
     }

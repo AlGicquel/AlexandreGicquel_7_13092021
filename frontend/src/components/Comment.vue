@@ -1,34 +1,39 @@
 <template>
     <div>
-        <div class="comment" v-if="comments.id === commentId">
-            <h4 class="comment-author">{{ filterComment().author }}</h4>
-            <p class="comment-text">{{ filterComment().text }}</p>
-        </div>
+        <h3>{{ this.username }}</h3>
+        <p>{{comment.text}}</p>
     </div>
 </template>
 
 <script>
-    import {mapState} from 'vuex'
 
 
 export default ({
-    props: {
-        commentId: Number
-    },
-    beforeCreate() {
-        console.log(commentId)
-    },
-    methods: {
-        filterComment () {
-            for (let comment of this.comments) {
-                if (this.$props.commentId === comment.id) {
-                    return comment;
-                }
+    data () {
+            return {
+                username: '',
             }
+
+        },
+    props: {
+        comment: {
+            text: String,
+            UserId: Number
         }
     },
+    created() {
+        this.$http.get('users/usernameById/' + this.comment.UserId)
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then(res => {
+                        this.username += res[0].username;
+                    })
+    },
+    methods: {
+
+    },
     computed: {
-        ...mapState(['comments']),
     }
 })
 </script>

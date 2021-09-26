@@ -9,7 +9,6 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
     import CreatePost from './CreatePost.vue'
     import PostCard from './PostCard.vue'
 
@@ -20,18 +19,29 @@
             PostCard
         },
         beforeCreate() {
-
+            this.$http.get('posts')
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then(posts => {
+                        for (let post of posts) {
+                            this.posts.push(post)
+                        }
+                    });
+            
+            
         },
         data () {
             return {
-                comment:false
+                comment:false,
+                posts: []
             }
         },
         methods: {
             
         },
         computed: {
-            ...mapState(['posts'])
+            
         }
     }
 </script>

@@ -1,10 +1,10 @@
 <template>
     <div class="post-card">
-        <h2 class="comment-author">{{ postProp.author }}</h2>
+        <h2 class="comment-author">{{ username }}</h2>
         <p class="comment-text">{{ postProp.text }}</p>
 
         <div class="like-comment-infos">
-            <span class="likes-comments-short">{{ postProp.likes.length }} likes</span>
+            <!-- <span class="likes-comments-short">{{ postProp.likes.length }} likes</span> -->
         </div>
 
         <div class="buttons">
@@ -14,13 +14,9 @@
         </div>
 
         <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
-        <div class="comments" v-if="postProp.comments.length !== 0">
-            <h3>Comments ({{ postProp.comments.length }})</h3>
-            <div class="comment" v-for="(comment, i) of postProp.comments" :key="i">
-                <h4 class="comment-author">{{ comment.author }}</h4>
-                <p class="comment-text">{{ comment.text }}</p>
-            </div>
-            <!-- <Comment  v-for="(commentIdLoop, i) of postProp.commentsIds" :key="i" :commentId="commentIdLoop"/> -->
+        <div class="comments" v-if="comments.length !== 0">
+            <h3>Comments ({{ comments.length }})</h3>
+            <Comment  v-for="(comment, i) of comments" :key="i" :comment="comment"/>
         </div>
 
 
@@ -35,7 +31,7 @@
 <script>
 
     import CreatePost from './CreatePost.vue'
-    // import Comment from './Comment.vue'
+    import Comment from './Comment.vue'
 
     export default {
         name: 'PostCard',
@@ -43,11 +39,29 @@
             return {
                 // gère l'affichage de la div de nouveau commentaire
                 comment: false,
+                username: '',
+                comments: []
             }
 
         },
         created() {
-            
+            this.$http.get('users/usernameById/' + this.postProp.UserId)
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then(res => {
+                        this.username += res[0].username;
+                    })
+
+            this.$http.get('comments/allByPostId/' + this.postProp.id)
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then(comments => {
+                        for (let comment of comments) {
+                            this.comments.push(comment);
+                        }
+                    });
         },
         methods: {
             // gère l'affichage et l'animation de la div de nouveau commentaire
@@ -58,16 +72,14 @@
         },
         props:{
             postProp: {
-                author: String,
+                UserId: String,
                 text: String,
-                comments: Array,
-                likes: Array
             },
             index: Number
         },
         components: {
             CreatePost,
-            // Comment
+            Comment
         }
 
     }
