@@ -24,7 +24,7 @@ app.use('/api/users', UserRoutes);
 app.use('/api/comments', CommentRoutes);
 
 db.sequelize.sync({ 
-    // force: true 
+    force: true 
 }).then(() => {
     app.listen(PORT, () => {
         console.log(`Listening on port ${PORT}`);

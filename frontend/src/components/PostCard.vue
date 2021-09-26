@@ -1,6 +1,6 @@
 <template>
     <div class="post-card">
-        <h2 class="comment-author">{{ username }}</h2>
+        <h2 class="comment-author">{{ fullName }}</h2>
         <p class="comment-text">{{ postProp.text }}</p>
 
         <div class="like-comment-infos">
@@ -39,7 +39,7 @@
             return {
                 // gère l'affichage de la div de nouveau commentaire
                 comment: false,
-                username: '',
+                fullName: '',
                 comments: []
             }
 
@@ -50,7 +50,7 @@
                         return res.json();
                     })
                     .then(res => {
-                        this.username += res[0].username;
+                        this.fullName += res[0].firstName + ' ' + res[0].lastName;
                     })
 
             this.$http.get('comments/allByPostId/' + this.postProp.id)

@@ -5,6 +5,7 @@
             <router-link to="/"><img src="../../public/logos/icon-left-font.png" alt="Logo Groupomania"></router-link>
             <router-link to="/">Posts</router-link> |
             <router-link to="/login">Login</router-link> |
+            <router-link to="/signup">Sign up</router-link> |
             <router-link to="/user">User</router-link>
         </div>
         <router-view/>

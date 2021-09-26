@@ -9,7 +9,8 @@ router.get('/', UserCtrl.getAllUsers);
 
 router.get('/:id', UserCtrl.getOneUser);
 router.get('/usernameById/:id', UserCtrl.getUsernameById);
-router.post('/', UserCtrl.postUser);
+router.post('/signup', UserCtrl.signupUser);
+router.post('/login', UserCtrl.loginUser);
 router.put('/:id', UserCtrl.putUser);
 router.delete('/:id', UserCtrl.deleteUser);
 

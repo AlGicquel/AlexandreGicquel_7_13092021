@@ -10,11 +10,11 @@
 
 export default ({
     data () {
-            return {
-                username: '',
-            }
+        return {
+            username: '',
+        }
 
-        },
+    },
     props: {
         comment: {
             text: String,
@@ -27,7 +27,7 @@ export default ({
                         return res.json();
                     })
                     .then(res => {
-                        this.username += res[0].username;
+                        this.username += res[0].firstName + ' ' + res[0].lastName;
                     })
     },
     methods: {
