@@ -1,41 +1,52 @@
 <template>
-    <div class="container">
-        <!-- Bannière sticky top avec la nav et la routeur -->
-        <div id="nav" class="banner sticky-top">
-            <router-link to="/"><img src="../../public/logos/icon-left-font.png" alt="Logo Groupomania"></router-link>
-            <router-link to="/">Posts</router-link> |
-            <router-link to="/login">Login</router-link> |
-            <router-link to="/signup">Sign up</router-link> |
-            <router-link to="/user">User</router-link>
+    <div class="">
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-white py-0" >
+            <div class="container-fluid my-0 d-flex justify-content-right">
+
+                <!-- Logo, routes login if auth=false else posts -->
+                <router-link to="/" class="navbar-brand" v-if="auth">
+                    <img src="../../public/logos/icon-left-font.png" alt="Logo Groupomania">
+                </router-link>
+                <router-link to="/login" class="navbar-brand" v-if="!auth">
+                    <img src="../../public/logos/icon-left-font.png" alt="Logo Groupomania">
+                </router-link>
+                
+                <!-- Dropdown for small screens -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Links -->
+                <div class="collapse navbar-collapse my-2 justify-content-right" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ps-5">
+                        <li class="nav-item" v-if="auth">
+                            <router-link to="/" class="nav-link">Posts</router-link>
+                        </li>
+                        <li class="nav-item" v-if="auth">
+                            <router-link to="/user" class="nav-link">My profile</router-link>
+                        </li>
+                        <li class="nav-item" v-if="!auth">
+                            <router-link to="/login" class="nav-link">Login</router-link>
+                        </li>
+                        <li class="nav-item" v-if="!auth">
+                            <router-link to="/signup" class="nav-link">Sign Up</router-link>
+                        </li>
+                    </ul>
+                <button class="btn btn-danger ms-5" v-if="auth" @click="logout" >Log Out</button>
+                </div>
+
+            </div>
+        </nav>
+
+
+        <div class="container">
+            <!-- <p>header: auth={{auth}}</p> -->
+            <router-view  @auth-sent="toggleAuth" :auth="auth"/>
         </div>
-        <router-view/>
+
     </div>
 </template>
 
-<style scoped>
-    .container {
-        /* display: flex; */
-        width: 80%;
-        margin: 20px auto;
-
-    }
-
-    #nav{
-        display: flex;
-        justify-content: space-between;
-        background-color: white;
-        padding: 20px 0;
-    }
-    router-link:nth-child(1){
-        display: flex;
-        flex:1;
-    }
-    img{
-        width: 150px;
-        height: 30px;
-        object-fit: cover;
-    }
-</style>
 
 <script>
 
@@ -43,6 +54,44 @@
         name: 'Header',
         components: {
 
+        },
+        props: {
+            
+        }, 
+        data () {
+            return {
+                auth:false
+            }
+        },
+        methods: {
+            toggleAuth(payload) {
+                this.auth = payload.auth;
+            },
+            logout() {
+                sessionStorage.clear();
+                this.auth = false;
+                this.$router.push('/login')
+
+            }
         }
 }
 </script>
+
+
+<style scoped>
+    template {
+        background-color: white;
+    }
+    img{
+        width: 150px;
+        height: 30px;
+        object-fit: cover;
+    }
+    .loggedin {
+        display: flex;
+        justify-content: space-between;
+        background-color: white;
+        padding: 0px 0;
+    }
+</style>
+

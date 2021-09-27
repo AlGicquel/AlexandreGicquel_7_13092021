@@ -1,5 +1,6 @@
 <template>
     <div class="">
+        <!-- <p>posts: auth={{auth}}</p> -->
         <!-- Composant de création de post -->
         <CreatePost/>
         <hr>
@@ -19,7 +20,16 @@
             PostCard
         },
         beforeCreate() {
-            this.$http.get('posts')
+            
+            
+            
+            
+        },
+        created() {
+            if (!this.auth) {
+                this.$router.push('login')
+            } else {
+                this.$http.get('posts')
                     .then(res => {
                         return res.json();
                     })
@@ -28,14 +38,16 @@
                             this.posts.push(post)
                         }
                     });
-            
-            
+            }
         },
         data () {
             return {
                 comment:false,
                 posts: []
             }
+        },
+        props: {
+            auth: Boolean
         },
         methods: {
             

@@ -6,15 +6,18 @@
                 
                 <div class="form-group">
                     <label for="email">
-                        Email : <input type="email" class="form-control" v-model="email">
+                        Email : ({{email}})<input type="email" class="form-control" v-model="email">
                     </label>
                 </div>
                 <div class="form-group">
                     <label for="password">
-                        Password : <input type="password" class="form-control" v-model="password">
+                        Password : ({{password}}) <input type="password" class="form-control" v-model="password">
                     </label>
                 </div>
-                <button class="btn btn-danger" @click="submit">Login</button>
+                <button class="btn btn-danger" @click="login">Login</button>
+                <div class="error" v-if="!error.isEmpty">
+                    <p>{{ error }}</p>
+                </div>
             <!-- </form> -->
         </div>
     </div>
@@ -25,19 +28,37 @@ export default {
     name: 'Login',
     data () {
         return {
-            email: '',
-            password: ''
+            email: 'gicquelalexandre94@gmail.com',
+            password: 'qsdf',
+            error: ''
         }
     },
+    props: {
+        auth: Boolean
+    },
+    beforeCreate () {
+
+    },
     methods: {
-        submit () {
-            this.$http.post('users', {
+        login() {
+            this.$http.post('users/login', {
                 email: this.email,
                 password: this.password
             }).then(response => {
-                console.log(response);
+                if (response.ok) {
+                    sessionStorage.userId = response.body.userId;
+                    sessionStorage.token = response.body.token;
+                    this.sendAuth();
+                    this.$router.push('/')
+
+                } 
             }, error => {
-                console.log(error);
+                this.error = error.body.error;
+            })
+        },
+        sendAuth() {
+            this.$emit('auth-sent', {
+                auth: true
             })
         }
     }
@@ -54,7 +75,6 @@ export default {
         border-radius: 20px;
         background-color: rgba(255, 214, 214, 1);
         padding: 20px;
-        width: 75%;
         margin: 20px auto;
     }
 </style>

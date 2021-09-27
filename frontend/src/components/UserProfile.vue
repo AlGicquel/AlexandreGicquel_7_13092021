@@ -8,7 +8,7 @@
                 <PostCard :postProp="posts[id]" :index="i"/>
                 
             </div> -->
-            <PostCard/>
+        <PostCard v-for="(post, i) of posts" :key="i" :postProp="post"  :index="i"/>
         </div>
     </div>
 </template>
@@ -23,10 +23,28 @@
             CreatePost,
             PostCard
         },
+        created() {
+            if (!this.auth) {
+                this.$router.push('login')
+            } else {
+                this.$http.get('posts/allByUserId/' + sessionStorage.userId)
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then(posts => {
+                        for (let post of posts) {
+                            this.posts.push(post)
+                        }
+                    });
+            }
+        },
         data () {
             return {
-                // comment:false
+                posts: []
             }
+        },
+        props: {
+            auth: Boolean
         },
         methods: {
             

@@ -48,13 +48,24 @@ export default {
     },
     methods: {
         submit () {
-            this.$http.post('users', {
+            this.$http.post('users/signup', {
                 firstName: this.firstName,
                 lastName: this.lastName,
                 email: this.email,
                 password: this.password
             }).then(response => {
-                console.log(response);
+                console.log('response signup : ', response);
+            }, error => {
+                console.log(error);
+            })
+        },
+        login() {
+            this.$http.post('users/login', {
+                email: this.email,
+                password: this.password
+            }).then(response => {
+                sessionStorage.userId = response.userId;
+                sessionStorage.token = response.token;
             }, error => {
                 console.log(error);
             })
