@@ -3,15 +3,17 @@
         <h2 class="comment-author">{{ fullName }}</h2>
         <p class="comment-text">{{ postProp.text }}</p>
         <p>id:{{postProp.id}}</p>
+        <p>UserId:{{postProp.UserId}}</p>
 
         <div class="like-comment-infos">
             <!-- <span class="likes-comments-short">{{ postProp.likes.length }} likes</span> -->
         </div>
 
         <div class="buttons">
-            <button class="btn btn-outline-danger">Like</button>
+            <button class="btn btn-outline-danger">J'aime</button>
             <!-- Bouton qui fait apparaitre et disparaitre la div d'ajout de commentaire -->
-            <button class="btn btn-outline-danger" @click="toggleNewComment" id="comment-button">Comment</button>
+            <button class="btn btn-outline-danger" @click="toggleNewComment" id="comment-button">Commenter</button>
+            <button class="btn btn-danger" v-if="postProp.UserId == UserId">Supprimer</button>
         </div>
 
         <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
@@ -23,15 +25,15 @@
 
 
         <!-- affiche et fait disparaitre le composant de commentaire -->
-        <div class="comment-form" :id="index">
-            <CreatePost v-if="comment"/>
+        <div class="comment-form" :id="'postId-'+postProp.id">
+            <CreateComment v-if="comment" :postId="postProp.id"/>
         </div>
     </div>
 </template>
 
 <script>
 
-    import CreatePost from './CreatePost.vue'
+    import CreateComment from './CreateComment.vue'
     import Comment from './Comment.vue'
 
     export default {
@@ -41,11 +43,13 @@
                 // gère l'affichage de la div de nouveau commentaire
                 comment: false,
                 fullName: '',
-                comments: []
+                comments: [],
+                UserId: 0
             }
 
         },
         created() {
+            this.UserId = sessionStorage.UserId
             this.$http.get('users/usernameById/' + this.postProp.UserId)
                     .then(res => {
                         return res.json();
@@ -68,7 +72,7 @@
             // gère l'affichage et l'animation de la div de nouveau commentaire
             toggleNewComment () {
                 this.comment = !this.comment;
-                document.getElementById(`${this.index}`).classList.toggle('active');
+                document.getElementById(`postId-${this.postProp.id}`).classList.toggle('active');
             }
         },
         props:{
@@ -79,7 +83,7 @@
             index: Number
         },
         components: {
-            CreatePost,
+            CreateComment,
             Comment
         }
 
@@ -92,6 +96,11 @@
 <style scoped>
     .post-card {
         transition: 0.3s ease-in-out;
+        border-radius: 20px;
+        /* background-color: rgba(255, 214, 214, 1); */
+        padding: 20px;
+        margin: 20px auto;
+        box-shadow: 0 0 10px gainsboro;
     }
 
     .btn-outline-danger {

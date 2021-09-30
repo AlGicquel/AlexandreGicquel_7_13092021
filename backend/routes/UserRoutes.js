@@ -5,7 +5,7 @@ const UserCtrl = require('../controllers/UserCtrl')
 const auth = require('../middleware/auth')
 
 // A commenter pour le rendu
-router.get('/', auth, UserCtrl.getAllUsers);
+router.get('/',  UserCtrl.getAllUsers);
 
 
 router.get('/:id', auth, UserCtrl.getOneUser);

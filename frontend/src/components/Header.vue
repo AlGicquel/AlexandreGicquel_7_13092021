@@ -20,19 +20,19 @@
                 <div class="collapse navbar-collapse my-2 justify-content-right" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ps-5">
                         <li class="nav-item" v-if="auth">
-                            <router-link to="/" class="nav-link">Posts</router-link>
+                            <router-link to="/" class="nav-link">Accueil</router-link>
                         </li>
                         <li class="nav-item" v-if="auth">
-                            <router-link to="/user" class="nav-link">My profile</router-link>
+                            <router-link to="/user" class="nav-link">Mon profil</router-link>
                         </li>
                         <li class="nav-item" v-if="!auth">
-                            <router-link to="/login" class="nav-link">Login</router-link>
+                            <router-link to="/login" class="nav-link">Se connecter</router-link>
                         </li>
                         <li class="nav-item" v-if="!auth">
-                            <router-link to="/signup" class="nav-link">Sign Up</router-link>
+                            <router-link to="/signup" class="nav-link">S'inscrire</router-link>
                         </li>
                     </ul>
-                <button class="btn btn-danger ms-5" v-if="auth" @click="logout" >Log Out</button>
+                <button class="btn btn-danger ms-5" v-if="auth" @click="logout" >Se deconnecter</button>
                 </div>
 
             </div>

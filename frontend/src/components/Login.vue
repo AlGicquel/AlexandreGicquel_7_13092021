@@ -29,7 +29,7 @@ export default {
     data () {
         return {
             email: 'gicquelalexandre94@gmail.com',
-            password: 'qsdf',
+            password: 'Test?1',
             error: ''
         }
     },

@@ -1,6 +1,6 @@
 <template>
-    <div class="new-post">
-        <h1>Exprimez vous :</h1>
+    <div class="new-com">
+        <h1>Ajoutez un commentaire : </h1>
         <form action="">
             <textarea  class="form-control" rows="3" v-model="text"></textarea>
             <!-- <p>{{text}}</p> -->
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: 'CreatePost',
+    name: 'CreateComment',
     data () {
         return {
             text: '',
@@ -25,15 +25,17 @@ export default {
         }
     },
     props: {
-        auth: Boolean
+        auth: Boolean,
+        postId: Number
     },
     methods: {
         submit() {
             if (this.text == '') {
-                alert('Votre poste est vide.')
+                alert('Votre commentaire est vide.')
             } else {
-                this.$http.post('posts', {
+                this.$http.post('comments', {
                     UserId: sessionStorage.UserId,
+                    PostId: this.postId,
                     text: this.text
                 }).then(response => {
                     this.$router.go()
@@ -51,11 +53,11 @@ export default {
         background-color: white;
     }
 
-    .new-post {
+    .new-com {
         border-radius: 20px;
-        background-color: rgba(255, 214, 214, 1);
+        /* background-color: rgba(255, 214, 214, 1); */
         padding: 20px;
         margin: 20px auto;
-        box-shadow: 0 0 10px rgba(255, 214, 214, 1);
+        box-shadow: 0 0 10px gainsboro;
     }
 </style>
