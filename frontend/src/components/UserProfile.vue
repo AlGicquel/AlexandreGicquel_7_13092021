@@ -25,7 +25,7 @@
         },
         created() {
             if (!this.auth) {
-                this.$router.push('login')
+                // this.$router.push('login')
             } else {
                 this.$http.get('posts/allByUserId/' + sessionStorage.UserId)
                     .then(res => {

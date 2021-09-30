@@ -39,9 +39,8 @@
         </nav>
 
 
-        <div class="container">
-            <!-- <p>header: auth={{auth}}</p> -->
-            <router-view  @auth-sent="toggleAuth" :auth="auth"/>
+        <div class="container ">
+            <router-view  @auth-sent="toggleAuth" :auth="auth" :level="level"/>
         </div>
 
     </div>
@@ -60,7 +59,8 @@
         }, 
         data () {
             return {
-                auth:false
+                auth: false,
+                level: 0
             }
         },
         methods: {

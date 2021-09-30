@@ -22,8 +22,7 @@
         created() {
             if (!this.auth) {
                 this.$router.push('login');
-            }
-            // } else {
+            } else {
                 this.$http.get('posts')
                     .then(res => {
                         return res.json();
@@ -33,7 +32,7 @@
                             this.posts.push(post);
                         }
                     });
-            // }
+            }
         },
         data () {
             return {

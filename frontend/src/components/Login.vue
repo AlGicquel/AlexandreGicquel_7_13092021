@@ -34,7 +34,8 @@ export default {
         }
     },
     props: {
-        auth: Boolean
+        auth: Boolean,
+        level: Number
     },
     beforeCreate () {
 
@@ -48,6 +49,7 @@ export default {
                 if (response.ok) {
                     sessionStorage.UserId = response.body.UserId;
                     sessionStorage.token = response.body.token;
+                    this.level = response.body.level;
                     this.sendAuth();
                     this.$router.push('/')
 

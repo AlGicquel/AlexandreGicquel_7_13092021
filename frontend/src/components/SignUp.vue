@@ -29,7 +29,7 @@
                         Confirm password : <input type="password" class="form-control" v-model="confirmPassword">
                     </label>
                 </div>
-                <p {{ error }}></p>
+                <p> {{ error }}</p>
                 <button class="btn btn-danger" @click="checkInput">Login</button>
             <!-- </form> -->
         </div>
@@ -38,7 +38,7 @@
 
 <script>
 export default {
-    name: 'Login',
+    name: 'SignUp',
     data () {
         return {
             error: '',
@@ -57,20 +57,7 @@ export default {
                 email: this.email,
                 password: this.password
             }).then( ()  => {
-                this.login();
-            }, error => {
-                console.log(error);
-            })
-        },
-        login() {
-            this.$http.post('users/login', {
-                email: this.email,
-                password: this.password
-            }).then(response => {
-                sessionStorage.UserId = response.UserId;
-                sessionStorage.token = response.token;
-                this.sendAuth();
-                this.$router.push('/')
+                this.$router.push('login')
             }, error => {
                 console.log(error);
             })
@@ -101,11 +88,6 @@ export default {
             ) {
                 this.signup();
             }
-        },
-        sendAuth() {
-            this.$emit('auth-sent', {
-                auth: true
-            })
         }
     }
 }

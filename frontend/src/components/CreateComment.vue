@@ -37,7 +37,7 @@ export default {
                     UserId: sessionStorage.UserId,
                     PostId: this.postId,
                     text: this.text
-                }).then(response => {
+                }).then(() => {
                     this.$router.go()
                 }, error => {
                     this.error = error.body;

@@ -22,6 +22,18 @@ exports.getUsernameById = (req, res) => {
     .catch(error => console.log(error));
 };
 
+// exports.getLevelById = (req, res) => {
+//     db.User.findAll({
+//         attributes: [
+//             'level'
+//         ],
+//         where: {
+//             id: req.params.id
+//         }
+//     }).then( user => res.send(user))
+//     .catch(error => console.log(error));
+// };
+
 exports.getOneUser = (req, res) => {
     db.User.findAll({
         where: {
@@ -49,7 +61,8 @@ exports.loginUser = (req, res) => {
     db.User.findAll({
         attributes: [
             'password',
-            'id'
+            'id',
+            'level',
         ],
         where: {
             email: req.body.email
@@ -69,7 +82,8 @@ exports.loginUser = (req, res) => {
                         { UserId: user[0].id },
                         'RANDOM_TOKEN_SECRET',
                         { expiresIn: '24h' }
-                    )
+                    ),
+                    level: user[0].level
                 });
             })
             .catch(error => console.log(error));
