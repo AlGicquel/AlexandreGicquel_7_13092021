@@ -46,9 +46,7 @@
 
         },
         created() {
-            this.$http.get('users/usernameById/' + this.postProp.UserId, {
-                UserId: sessionStorage.UserId
-            })
+            this.$http.get('users/usernameById/' + this.postProp.UserId)
                     .then(res => {
                         return res.json();
                     })
@@ -56,9 +54,7 @@
                         this.fullName += res[0].firstName + ' ' + res[0].lastName;
                     })
 
-            this.$http.get('comments/allByPostId/' + this.postProp.id, {
-                UserId: sessionStorage.UserId
-            })
+            this.$http.get('comments/allByPostId/' + this.postProp.id)
                     .then(res => {
                         return res.json();
                     })

@@ -32,7 +32,7 @@ export default {
     methods: {
         submit() {
             this.$http.post('posts', {
-                UserId: parseInt(sessionStorage.UserId),
+                UserId: sessionStorage.UserId,
                 text: this.text
             }).then(response => {
                 console.log(response)

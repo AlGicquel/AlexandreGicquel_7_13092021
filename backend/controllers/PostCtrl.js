@@ -2,7 +2,10 @@ const express = require('express');
 const db = require('../models');
 
 exports.getAllPosts = (req, res) => {
-    db.Post.findAll()
+    db.Post.findAll({ 
+            limit: 10, 
+            order: [['updatedAt', 'DESC']]
+        })
         .then( posts => res.send(posts))
         .catch( error => console.log(error));
 };

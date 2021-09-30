@@ -73,6 +73,11 @@
                 this.$router.push('/login')
 
             }
+        },
+        created () {
+            if (sessionStorage.UserId && sessionStorage.token) {
+                this.auth = true;
+            }
         }
 }
 </script>

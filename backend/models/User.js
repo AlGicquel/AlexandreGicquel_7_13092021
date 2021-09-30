@@ -18,15 +18,20 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true
+        },
+        level: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
+            allowNull: false,
+        },
+        deleted: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            
         }
 
     });
 
-    // user.associate = models => {
-    //     user.hasMany(models.Post, {
-    //         onDelete: 'cascade'
-    //     });
-    // };
 
     user.associate = models => {
         user.hasMany(models.Comment, {

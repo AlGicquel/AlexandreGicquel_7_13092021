@@ -30,9 +30,7 @@
                 this.$router.push('login')
             }
             // } else {
-                this.$http.get('posts', {
-                    UserId: sessionStorage.UserId
-                })
+                this.$http.get('posts')
                     .then(res => {
                         return res.json();
                     })
