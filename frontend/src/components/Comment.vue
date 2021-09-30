@@ -22,13 +22,15 @@ export default ({
         }
     },
     created() {
-        this.$http.get('users/usernameById/' + this.comment.UserId)
-                    .then(res => {
-                        return res.json();
-                    })
-                    .then(res => {
-                        this.username += res[0].firstName + ' ' + res[0].lastName;
-                    })
+        this.$http.get('users/usernameById/' + this.comment.UserId, {
+                UserId: sessionStorage.UserId
+            })
+            .then(res => {
+                return res.json();
+            })
+            .then(res => {
+                this.username += res[0].firstName + ' ' + res[0].lastName;
+            })
     },
     methods: {
 

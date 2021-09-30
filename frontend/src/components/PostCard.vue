@@ -2,6 +2,7 @@
     <div class="post-card">
         <h2 class="comment-author">{{ fullName }}</h2>
         <p class="comment-text">{{ postProp.text }}</p>
+        <p>id:{{postProp.id}}</p>
 
         <div class="like-comment-infos">
             <!-- <span class="likes-comments-short">{{ postProp.likes.length }} likes</span> -->
@@ -45,7 +46,9 @@
 
         },
         created() {
-            this.$http.get('users/usernameById/' + this.postProp.UserId)
+            this.$http.get('users/usernameById/' + this.postProp.UserId, {
+                UserId: sessionStorage.UserId
+            })
                     .then(res => {
                         return res.json();
                     })
@@ -53,7 +56,9 @@
                         this.fullName += res[0].firstName + ' ' + res[0].lastName;
                     })
 
-            this.$http.get('comments/allByPostId/' + this.postProp.id)
+            this.$http.get('comments/allByPostId/' + this.postProp.id, {
+                UserId: sessionStorage.UserId
+            })
                     .then(res => {
                         return res.json();
                     })

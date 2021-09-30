@@ -28,8 +28,11 @@
         created() {
             if (!this.auth) {
                 this.$router.push('login')
-            } else {
-                this.$http.get('posts')
+            }
+            // } else {
+                this.$http.get('posts', {
+                    UserId: sessionStorage.UserId
+                })
                     .then(res => {
                         return res.json();
                     })
@@ -38,7 +41,7 @@
                             this.posts.push(post)
                         }
                     });
-            }
+            // }
         },
         data () {
             return {

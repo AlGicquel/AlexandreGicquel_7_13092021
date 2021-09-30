@@ -12,6 +12,13 @@ Vue.config.productionTip = false;
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
 Vue.http.options.root = 'http://localhost:3000/api/';
+Vue.http.interceptors.push( (request, next) => {
+  if (sessionStorage.UserId && sessionStorage.token) {
+    request.headers.set('Authorization', 'Bearer ' + sessionStorage.token);
+    request.headers.set('Accept', 'application/json');
+    next();
+  }
+})
 
 new Vue({
   router,

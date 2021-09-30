@@ -46,7 +46,7 @@ export default {
                 password: this.password
             }).then(response => {
                 if (response.ok) {
-                    sessionStorage.userId = response.body.userId;
+                    sessionStorage.UserId = response.body.UserId;
                     sessionStorage.token = response.body.token;
                     this.sendAuth();
                     this.$router.push('/')

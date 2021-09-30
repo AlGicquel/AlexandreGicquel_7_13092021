@@ -55,7 +55,6 @@ exports.loginUser = (req, res) => {
             email: req.body.email
         }
     }).then( user => {
-        console.log(user)
         if (!user[0]) {
             return res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }
@@ -65,9 +64,9 @@ exports.loginUser = (req, res) => {
                     return res.status(401).json({ error: 'Mot de passe incorrect !' });
                 }
                 res.status(200).json({
-                    userId: user[0].id,
+                    UserId: user[0].id,
                     token: jwt.sign(
-                        { userId: user._id },
+                        { UserId: user[0].id },
                         'RANDOM_TOKEN_SECRET',
                         { expiresIn: '24h' }
                     )

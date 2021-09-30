@@ -31,7 +31,8 @@ exports.postPost = (req, res) => {
         UserId: req.body.UserId
     })
         .then(submittedPost => res.send(submittedPost))
-        .catch(error => console.log(error));
+        .catch(error => res.status(500).json({ error: "postpost" }));
+        // .catch(error => console.log(error));
 };
 
 exports.putPost = (req, res) => {
