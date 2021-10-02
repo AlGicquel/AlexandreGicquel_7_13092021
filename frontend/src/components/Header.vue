@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="template">
         <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-white py-0" >
             <div class="container-fluid my-0 d-flex justify-content-right">
 
@@ -12,7 +12,7 @@
                 </router-link>
                 
                 <!-- Dropdown for small screens -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler my-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -31,6 +31,9 @@
                         <li class="nav-item" v-if="!auth">
                             <router-link to="/signup" class="nav-link">S'inscrire</router-link>
                         </li>
+                        <li class="nav-item">
+                            <span class="nav-link"> level: {{$store.state.level}}</span>
+                        </li>
                     </ul>
                 <button class="btn btn-danger ms-5" v-if="auth" @click="logout" >Se deconnecter</button>
                 </div>
@@ -39,8 +42,11 @@
         </nav>
 
 
-        <div class="container ">
-            <router-view  @auth-sent="toggleAuth" :auth="auth" :level="level"/>
+        <div class="container">
+            <div class="col-lg-8 col-xl-6 m-auto">
+
+                <router-view  @auth-sent="toggleAuth" :auth="auth" :level="level"/>
+            </div>
         </div>
 
     </div>
@@ -84,19 +90,15 @@
 
 
 <style scoped>
-    template {
-        background-color: white;
+    .template {
+        margin: 0;
+        background-color: rgb(248, 248, 248);
     }
     img{
         width: 150px;
         height: 30px;
         object-fit: cover;
     }
-    .loggedin {
-        display: flex;
-        justify-content: space-between;
-        background-color: white;
-        padding: 0px 0;
-    }
+
 </style>
 

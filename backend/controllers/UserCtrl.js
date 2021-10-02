@@ -50,6 +50,7 @@ exports.signupUser = (req, res) => {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
+            level: req.body.level,
             password: hash
         })
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))

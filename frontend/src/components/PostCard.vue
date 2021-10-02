@@ -4,6 +4,7 @@
         <p class="comment-text">{{ postProp.text }}</p>
         <p>id:{{postProp.id}}</p>
         <p>UserId:{{postProp.UserId}}</p>
+        <p>level {{$store.state.level}}</p>
 
         <div class="like-comment-infos">
             <!-- <span class="likes-comments-short">{{ postProp.likes.length }} likes</span> -->
@@ -13,7 +14,11 @@
             <button class="btn btn-outline-danger">J'aime</button>
             <!-- Bouton qui fait apparaitre et disparaitre la div d'ajout de commentaire -->
             <button class="btn btn-outline-danger" @click="toggleNewComment" id="comment-button">Commenter</button>
-            <button class="btn btn-danger" v-if="postProp.UserId == UserId">Supprimer</button>
+            <button class="btn btn-danger" 
+                v-if="postProp.UserId == UserId || $store.state.level" 
+                @click="deletePost">
+                    Supprimer
+            </button>
         </div>
 
         <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
@@ -44,7 +49,8 @@
                 comment: false,
                 fullName: '',
                 comments: [],
-                UserId: 0
+                UserId: 0,
+                message: ''
             }
 
         },
@@ -73,14 +79,19 @@
             toggleNewComment () {
                 this.comment = !this.comment;
                 document.getElementById(`postId-${this.postProp.id}`).classList.toggle('active');
-            }
+            },
+            deletePost() {
+                this.$http.delete('posts/'+ this.postProp.id)
+                    .then(this.message = 'La plublication a été supprimée.')
+            },
         },
         props:{
             postProp: {
                 UserId: String,
                 text: String,
             },
-            index: Number
+            index: Number,
+            level: Number
         },
         components: {
             CreateComment,
@@ -98,6 +109,7 @@
         transition: 0.3s ease-in-out;
         border-radius: 20px;
         /* background-color: rgba(255, 214, 214, 1); */
+        background-color: #fff;
         padding: 20px;
         margin: 20px auto;
         box-shadow: 0 0 10px gainsboro;

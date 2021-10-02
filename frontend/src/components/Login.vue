@@ -28,7 +28,7 @@ export default {
     name: 'Login',
     data () {
         return {
-            email: 'gicquelalexandre94@gmail.com',
+            email: 'admin@gmail.com',
             password: 'Test?1',
             error: ''
         }
@@ -49,7 +49,7 @@ export default {
                 if (response.ok) {
                     sessionStorage.UserId = response.body.UserId;
                     sessionStorage.token = response.body.token;
-                    this.level = response.body.level;
+                    this.sendAdminAction(response.body.level)
                     this.sendAuth();
                     this.$router.push('/')
 
@@ -58,10 +58,18 @@ export default {
                 this.error = error.body.error;
             })
         },
+        
         sendAuth() {
             this.$emit('auth-sent', {
-                auth: true
+                auth: true,
+                
             })
+        },
+        sendAuthAction () {
+            this.$store.dispatch('authentifiedAction')
+        },
+        sendAdminAction (level) {
+            this.$store.dispatch('adminAction', level)
         }
     }
 }

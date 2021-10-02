@@ -41,7 +41,8 @@
             }
         },
         props: {
-            auth: Boolean
+            auth: Boolean,
+            level: Number
         },
         methods: {
             
