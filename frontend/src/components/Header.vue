@@ -34,6 +34,17 @@
                         <li class="nav-item">
                             <span class="nav-link"> level: {{$store.state.level}}</span>
                         </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Paramètres
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <button class="btn btn-danger" @click="deleteAccount">Supprimer mon compte</button>
+                                </li>
+                            </ul>
+                            </li>
                     </ul>
                 <button class="btn btn-danger ms-5" v-if="auth" @click="logout" >Se deconnecter</button>
                 </div>
@@ -42,7 +53,7 @@
         </nav>
 
 
-        <div class="container">
+        <div class="container mb-0">
             <div class="col-lg-8 col-xl-6 m-auto">
 
                 <router-view  @auth-sent="toggleAuth" :auth="auth" :level="level"/>
@@ -76,8 +87,18 @@
             logout() {
                 sessionStorage.clear();
                 this.auth = false;
-                this.$router.push('/login')
-
+                this.$router.push('/login');
+            },
+            deleteAccount () {
+                this.$http.put('users/delete/' + sessionStorage.UserId, {
+                    UserId: sessionStorage.UserId
+                })
+                .then(res => {
+                    this.$router.push('/signup');
+                    this.auth = false;
+                }, err => {
+                    console.log(err);
+                })
             }
         },
         created () {
@@ -90,6 +111,10 @@
 
 
 <style scoped>
+    html {
+        background-color: rgb(248, 248, 248);
+        margin-bottom: 0;
+    }
     .template {
         margin: 0;
         background-color: rgb(248, 248, 248);

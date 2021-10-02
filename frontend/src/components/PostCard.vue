@@ -23,7 +23,7 @@
 
         <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
         <div class="comments" v-if="comments.length !== 0">
-            <h3>Comments ({{ comments.length }})</h3>
+            <h3>Commentaires ({{ comments.length }})</h3>
             <Comment  v-for="(comment, i) of comments" :key="i" :comment="comment"/>
         </div>
 
@@ -61,7 +61,7 @@
                         return res.json();
                     })
                     .then(res => {
-                        this.fullName += res[0].firstName + ' ' + res[0].lastName;
+                        this.fullName += res.firstName + ' ' + res.lastName;
                     })
 
             this.$http.get('comments/allByPostId/' + this.postProp.id)

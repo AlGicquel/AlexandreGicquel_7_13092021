@@ -16,7 +16,9 @@
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-    
+    html {
+        background-color: rgb(248, 248, 248);
+    }
     #app {
         font-family: Roboto, Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;

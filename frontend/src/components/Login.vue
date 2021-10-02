@@ -28,7 +28,7 @@ export default {
     name: 'Login',
     data () {
         return {
-            email: 'admin@gmail.com',
+            email: 'test@gmail.com',
             password: 'Test?1',
             error: ''
         }
@@ -84,6 +84,7 @@ export default {
     .form {
         border-radius: 20px;
         background-color: rgba(255, 214, 214, 1);
+        box-shadow: 0 0 10px rgba(255, 214, 214, 1);
         padding: 20px;
         margin: 20px auto;
     }

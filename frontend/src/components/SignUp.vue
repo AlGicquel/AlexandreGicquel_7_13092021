@@ -44,7 +44,7 @@ export default {
             error: '',
             firstName: 'Alexandre',
             lastName: 'Gicquel',
-            email: 'gicquelalexandre94@gmail.com',
+            email: 'test@gmail.com',
             password: 'Test?1',
             confirmPassword: 'Test?1'
         }
@@ -102,6 +102,7 @@ export default {
     .form {
         border-radius: 20px;
         background-color: rgba(255, 214, 214, 1);
+        box-shadow: 0 0 10px rgba(255, 214, 214, 1);
         padding: 20px;
         width: 75%;
         margin: 20px auto;

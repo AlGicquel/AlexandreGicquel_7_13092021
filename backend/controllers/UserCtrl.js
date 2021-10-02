@@ -13,12 +13,23 @@ exports.getUsernameById = (req, res) => {
     db.User.findAll({
         attributes: [
             'firstName', 
-            'lastName'
+            'lastName',
+            'deleted'
         ],
         where: {
             id: req.params.id
         }
-    }).then( user => res.send(user))
+    }).then( user => {
+        const deletedUser = {
+            firstName: 'Utilisateur',
+            lastName: 'supprimé'
+        }
+        if (user[0].deleted) {
+            res.send(deletedUser);
+        } else {
+            res.send(user[0]);
+        }
+    })
     .catch(error => console.log(error));
 };
 
@@ -93,11 +104,25 @@ exports.loginUser = (req, res) => {
     .catch(error => console.log(error));
 }
 
+exports.deleteUser = (req, res) => {
+    db.User.update(
+        {
+            deleted: true,
+            email: ''
+        },
+        {
+            where: { id:req.params.id }
+        },
+    ).then(res.send('User successfully deleted'))
+    .catch(error => console.log(error));
+}
+
 exports.putUser = (req, res) => {
     db.User.update(
         {
-            username: req.body.username,
-            password: req.body.password
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            
         },
         {
             where: { id:req.params.id }
@@ -106,7 +131,7 @@ exports.putUser = (req, res) => {
     .catch(error => console.log(error));
 };
 
-exports.deleteUser = (req, res) => {
+exports.trueDeleteUser = (req, res) => {
     db.User.destroy({
         where: {
             id: req.params.id

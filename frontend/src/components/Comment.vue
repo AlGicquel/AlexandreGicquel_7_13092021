@@ -2,6 +2,7 @@
     <div class="com">
         <h3>{{ this.username }}</h3>
         <p>{{comment.text}}</p>
+        <button class="btn btn-danger d-flex align-self-right">Supprimer</button>
     </div>
 </template>
 
@@ -29,7 +30,7 @@ export default ({
                 return res.json();
             })
             .then(res => {
-                this.username += res[0].firstName + ' ' + res[0].lastName;
+                this.username += res.firstName + ' ' + res.lastName;
             })
     },
     methods: {

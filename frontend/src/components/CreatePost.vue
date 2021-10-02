@@ -6,7 +6,7 @@
             <!-- <p>{{text}}</p> -->
             <div class="buttons">
                 <button class="btn btn-outline-danger">Ajouter une image</button>
-                <button class="btn btn-danger" @click="submit">Poster</button>
+                <button class="btn btn-danger" @click="submit">Publier</button>
             </div>
             <div class="error" v-if="!error.isEmpty">
                 <p>{{ error }}</p>
