@@ -14,7 +14,7 @@
                         Password : ({{password}}) <input type="password" class="form-control" v-model="password">
                     </label>
                 </div>
-                <button class="btn btn-danger" @click="login">Login</button>
+                <button class="btn btn-danger" @click="login">Se connecter</button>
                 <div class="error" v-if="!error.isEmpty">
                     <p>{{ error }}</p>
                 </div>
@@ -29,7 +29,7 @@ export default {
     data () {
         return {
             email: 'test@gmail.com',
-            password: 'Test?1',
+            password: 'Test.1',
             error: ''
         }
     },

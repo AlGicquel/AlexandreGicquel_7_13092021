@@ -55,6 +55,6 @@ exports.deletePost = (req, res) => {
         where: {
             id: req.params.id
         }
-    }).then(res.send('Post successfully deleted'))
+    }).then(res.status(200).json({ message: 'La publication a bien été supprimée.'}))
     .catch(error => console.log(error));
 };

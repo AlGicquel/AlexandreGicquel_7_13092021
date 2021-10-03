@@ -20,17 +20,17 @@
                 </div>
                 <div class="form-group">
                     <label for="password">
-                        Password : <input type="password" class="form-control" v-model="password">
+                        Password : {{password}}<input type="password" class="form-control" v-model="password">
                     </label>
                     <p>Doit contenir au moins une lettre majuscule, une minuscule, un chiffre et un caractère spécial.</p>
                 </div>
                 <div class="form-group">
                     <label for="confirm-password">
-                        Confirm password : <input type="password" class="form-control" v-model="confirmPassword">
+                        Confirm password : {{confirmPassword}}<input type="password" class="form-control" v-model="confirmPassword">
                     </label>
                 </div>
                 <p> {{ error }}</p>
-                <button class="btn btn-danger" @click="checkInput">Login</button>
+                <button class="btn btn-danger" @click="checkInput">S'inscrire</button>
             <!-- </form> -->
         </div>
     </div>
@@ -45,8 +45,8 @@ export default {
             firstName: 'Alexandre',
             lastName: 'Gicquel',
             email: 'test@gmail.com',
-            password: 'Test?1',
-            confirmPassword: 'Test?1'
+            password: 'Test.1',
+            confirmPassword: 'Test.1'
         }
     },
     methods: {
@@ -59,27 +59,27 @@ export default {
             }).then( ()  => {
                 this.$router.push('login')
             }, error => {
-                console.log(error);
+                this.error = error.body.message;
             })
         },
         checkInput () {
             const testEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            const testPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&.]{5,20}$/;
+            const testPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{5,20}$/;
             const testNames = /[A-Za-z éèçàêëñöùä\-]$/;
 
             if ( !testNames.test(this.firstName) || !testNames.test(this.lastName) ) {
                 this.error = ('Caractères non valides dans le nom ou prénom')
             }
-            if ( !testEmail.test(this.email) ) {
+            else if ( !testEmail.test(this.email) ) {
                 this.error = ('Email non valide')
             }
-            if ( !testPassword.test(this.password) || !testPassword.test(this.confirmPassword) ) {
-                this.error = ('Critères de sécurité du mot de pass non remplis')
+            else if ( !testPassword.test(this.password) || !testPassword.test(this.confirmPassword) ) {
+                this.error = ('Critères de sécurité du mot de passe non remplis')
             }
-            if ( this.password !== this.confirmPassword) {
+            else if ( this.password !== this.confirmPassword) {
                 this.error = ('Mot de passe et confirmation du mot de passe différents')
             }
-            if (
+            else if (
                 testNames.test(this.firstName) &&
                 testNames.test(this.lastName) &&
                 testEmail.test(this.email) &&

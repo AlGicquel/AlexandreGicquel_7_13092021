@@ -40,7 +40,7 @@ exports.postComment = (req, res) => {
         UserId: req.body.UserId,
         PostId: req.body.PostId
     })
-        .then(submittedComment => res.send(submittedComment))
+        .then(submittedComment => res.status(200).json(submittedComment))
         .catch(error => console.log(error))
 };
 

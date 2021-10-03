@@ -1,8 +1,16 @@
 <template>
-    <div class="com">
-        <h3>{{ this.username }}</h3>
-        <p>{{comment.text}}</p>
-        <button class="btn btn-danger d-flex align-self-right">Supprimer</button>
+    <div class="com py-1">
+        <div v-if="!this.message.isEmpty">
+
+            <h3>{{ this.username }}</h3>
+            <p>{{comment.text}}</p>
+            <p>PostId: {{comment.PostId}}</p>
+            <button class="btn btn-danger d-flex align-self-right"
+                @click="deleteComment"
+                v-if="this.userId == comment.UserId">
+                    Supprimer 
+            </button>
+        </div>
     </div>
 </template>
 
@@ -13,6 +21,8 @@ export default ({
     data () {
         return {
             username: '',
+            userId: '',
+            message: ''
         }
 
     },
@@ -31,10 +41,14 @@ export default ({
             })
             .then(res => {
                 this.username += res.firstName + ' ' + res.lastName;
+                this.userId += sessionStorage.UserId
             })
     },
     methods: {
-
+        deleteComment () {
+            this.$http.delete('comments/' + this.comment.id)
+                .then()
+        }
     },
     computed: {
     }

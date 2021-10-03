@@ -26,7 +26,9 @@ export default {
     },
     props: {
         auth: Boolean,
-        postId: Number
+        postId: Number,
+        comments: Array,
+        newComment: Boolean
     },
     methods: {
         submit() {
@@ -37,8 +39,15 @@ export default {
                     UserId: sessionStorage.UserId,
                     PostId: this.postId,
                     text: this.text
-                }).then(() => {
-                    this.$router.go()
+                })
+                .then(res => {
+                    return res.json()
+                })
+                .then((comment) => {
+                    // this.$router.go();
+                    this.comments.push(comment);
+                    this.text = '';
+                    this.newComment = false;
                 }, error => {
                     this.error = error.body;
                 })
@@ -56,6 +65,7 @@ export default {
     .new-com {
         border-radius: 20px;
         /* background-color: rgba(255, 214, 214, 1); */
+        background-color: rgb(243, 243, 243);
         padding: 20px;
         margin: 20px auto;
         box-shadow: 0 0 10px gainsboro;

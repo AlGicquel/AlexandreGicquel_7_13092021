@@ -1,38 +1,41 @@
 <template>
     <div class="post-card">
-        <h2 class="comment-author">{{ fullName }}</h2>
-        <p class="comment-text">{{ postProp.text }}</p>
-        <p>id:{{postProp.id}}</p>
-        <p>UserId:{{postProp.UserId}}</p>
-        <p>level {{$store.state.level}}</p>
+        <div v-if="!message.isEmpty" class="my-0 ">
+            <h2 class="comment-author">{{ fullName }}</h2>
+            <p class="comment-text">{{ postProp.text }}</p>
+            <p>id:{{postProp.id}}</p>
+            <p>UserId:{{postProp.UserId}}</p>
+            <p>level {{$store.state.level}}</p>
 
-        <div class="like-comment-infos">
-            <!-- <span class="likes-comments-short">{{ postProp.likes.length }} likes</span> -->
+            <div class="like-comment-infos">
+                <!-- <span class="likes-comments-short">{{ postProp.likes.length }} likes</span> -->
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-outline-danger">J'aime</button>
+                <!-- Bouton qui fait apparaitre et disparaitre la div d'ajout de commentaire -->
+                <button class="btn btn-outline-danger" @click="toggleNewComment" id="comment-button">Commenter</button>
+                <button class="btn btn-danger" 
+                    v-if="postProp.UserId == UserId || $store.state.level" 
+                    @click="deletePost">
+                        Supprimer
+                </button>
+            </div>
+
+            <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
+            <div class="comments" v-if="comments.length !== 0">
+                <h3>Commentaires ({{ comments.length }})</h3>
+                <Comment  v-for="(comment, i) of comments" :key="i" :comment="comment"/>
+            </div>
+
+
+
+            <!-- affiche et fait disparaitre le composant de commentaire -->
+            <div class="comment-form" :id="'postId-'+postProp.id">
+                <CreateComment v-if="newComment" :postId="postProp.id" :comments="comments" :newComment="newComment"/>
+            </div>
         </div>
-
-        <div class="buttons">
-            <button class="btn btn-outline-danger">J'aime</button>
-            <!-- Bouton qui fait apparaitre et disparaitre la div d'ajout de commentaire -->
-            <button class="btn btn-outline-danger" @click="toggleNewComment" id="comment-button">Commenter</button>
-            <button class="btn btn-danger" 
-                v-if="postProp.UserId == UserId || $store.state.level" 
-                @click="deletePost">
-                    Supprimer
-            </button>
-        </div>
-
-        <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
-        <div class="comments" v-if="comments.length !== 0">
-            <h3>Commentaires ({{ comments.length }})</h3>
-            <Comment  v-for="(comment, i) of comments" :key="i" :comment="comment"/>
-        </div>
-
-
-
-        <!-- affiche et fait disparaitre le composant de commentaire -->
-        <div class="comment-form" :id="'postId-'+postProp.id">
-            <CreateComment v-if="comment" :postId="postProp.id"/>
-        </div>
+        <p v-if="!message.isEmpty" class="py-0">{{message}}</p>
     </div>
 </template>
 
@@ -46,7 +49,7 @@
         data () {
             return {
                 // gère l'affichage de la div de nouveau commentaire
-                comment: false,
+                newComment: false,
                 fullName: '',
                 comments: [],
                 UserId: 0,
@@ -77,12 +80,15 @@
         methods: {
             // gère l'affichage et l'animation de la div de nouveau commentaire
             toggleNewComment () {
-                this.comment = !this.comment;
+                this.newComment = !this.newComment;
                 document.getElementById(`postId-${this.postProp.id}`).classList.toggle('active');
             },
             deletePost() {
                 this.$http.delete('posts/'+ this.postProp.id)
-                    .then(this.message = 'La plublication a été supprimée.')
+                    .then(res => {
+                        this.message = res.body.message;
+                    });
+
             },
         },
         props:{
@@ -90,7 +96,6 @@
                 UserId: String,
                 text: String,
             },
-            index: Number,
             level: Number
         },
         components: {
@@ -130,5 +135,10 @@
         opacity: 1;
         transition: 0.2s ease-out;
 
+    }
+
+    h2 {
+        font-size: x-large;
+        
     }
 </style>

@@ -29,7 +29,6 @@
             } else {
                 this.$http.get('posts/allByUserId/' + sessionStorage.UserId)
                     .then(res => {
-                        console.log(res)
                         return res.json();
                     })
                     .then(posts => {

@@ -2,10 +2,10 @@
     <div class="">
         <!-- <p>posts: auth={{auth}}</p> -->
         <!-- Composant de création de post -->
-        <CreatePost/>
+        <CreatePost :posts="posts"/>
         <hr>
         <!-- Loop sur la liste de post pour créer un composant pour chaque -->
-        <PostCard v-for="(post, i) of posts" :key="i" :postProp="post"  :index="i"/>
+        <PostCard v-for="(post, i) of posts" :key="i" :postProp="post"/>
     </div>
 </template>
 
