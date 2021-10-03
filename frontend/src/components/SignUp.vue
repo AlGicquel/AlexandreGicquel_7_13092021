@@ -3,6 +3,7 @@
         <div class="form">
             <h1>Inscription</h1>
             <!-- <form action=""> -->
+                <!-- Formulaire d'inscription lié au data -->
                 <div class="form-group">
                     <label for="firstName">
                         First Name : <input type="text" class="form-control" v-model="firstName">
@@ -29,7 +30,8 @@
                         Confirm password : {{confirmPassword}}<input type="password" class="form-control" v-model="confirmPassword">
                     </label>
                 </div>
-                <p> {{ error }}</p>
+                <!-- Affiche les erreurs s'il y en a -->
+                <p v-if="!error.isEmpty"> {{ error }}</p>
                 <button class="btn btn-danger" @click="checkInput">S'inscrire</button>
             <!-- </form> -->
         </div>
@@ -41,6 +43,7 @@ export default {
     name: 'SignUp',
     data () {
         return {
+            // Data des inputs, a vider pour la prod, 
             error: '',
             firstName: 'Alexandre',
             lastName: 'Gicquel',
@@ -50,6 +53,7 @@ export default {
         }
     },
     methods: {
+        // Fonction d'inscription
         signup () {
             this.$http.post('users/signup', {
                 firstName: this.firstName,
@@ -63,6 +67,7 @@ export default {
             })
         },
         checkInput () {
+            // Vérifie les input avec des regex, si tout est bon, envoie les données au serveur, sinon, affiche les erreurs en bas du formulaire
             // eslint-disable-next-line
             const testEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             // eslint-disable-next-line

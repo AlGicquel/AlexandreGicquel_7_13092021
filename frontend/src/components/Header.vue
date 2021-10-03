@@ -11,7 +11,7 @@
                     <img src="../../public/logos/icon-left-font.png" alt="Logo Groupomania">
                 </router-link>
                 
-                <!-- Dropdown for small screens -->
+                <!-- Dropdown for small smartphones and tablets -->
                 <button class="navbar-toggler my-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -31,10 +31,12 @@
                         <li class="nav-item" v-if="!auth">
                             <router-link to="/signup" class="nav-link">S'inscrire</router-link>
                         </li>
+                        <!-- Display of user level, delete for production -->
                         <li class="nav-item">
                             <span class="nav-link"> level: {{$store.state.level}}</span>
                         </li>
 
+                        <!-- Dropdown for options, only contains delete user for now -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Paramètres
@@ -44,7 +46,7 @@
                                     <button class="btn btn-danger" @click="deleteAccount">Supprimer mon compte</button>
                                 </li>
                             </ul>
-                            </li>
+                        </li>
                     </ul>
                 <button class="btn btn-danger ms-5" v-if="auth" @click="logout" >Se deconnecter</button>
                 </div>
@@ -81,26 +83,33 @@
             }
         },
         methods: {
+            // Fonction qui s'execute à la connection pour changer le paramètre auth en true
             toggleAuth(payload) {
                 this.auth = payload.auth;
             },
+
+            // Fonction de déconnection, redirige vers login
             logout() {
                 sessionStorage.clear();
                 this.auth = false;
                 this.$router.push('/login');
             },
+
+            //Fonction de suppression de compte, déconnecte et redirige vers login une fois la suppression effectuée
             deleteAccount () {
                 this.$http.put('users/delete/' + sessionStorage.UserId, {
                     UserId: sessionStorage.UserId
                 })
                 .then(() => {
                     this.$router.push('/signup');
-                    this.auth = false;
+                    this.logout();
                 }, err => {
                     console.log(err);
                 })
             }
         },
+
+        // permet la conservation de l'authentification
         created () {
             if (sessionStorage.UserId && sessionStorage.token) {
                 this.auth = true;

@@ -1,13 +1,15 @@
 <template>
     <div class="com py-1">
         <div v-if="!this.message.isEmpty">
-
+            <!-- Affichage du commentaire -->
             <h3>{{ this.username }}</h3>
             <p>{{comment.text}}</p>
             <p>PostId: {{comment.PostId}}</p>
+
+            <!-- Bouton de suppression du commentaire qui ne s'affiche que si l'utilisateur en est l'autheur ou un admin -->
             <button class="btn btn-danger d-flex align-self-right"
                 @click="deleteComment"
-                v-if="this.userId == comment.UserId">
+                v-if="this.userId == comment.UserId || $store.state.level">
                     Supprimer 
             </button>
         </div>
@@ -33,24 +35,22 @@ export default ({
         }
     },
     created() {
-        this.$http.get('users/usernameById/' + this.comment.UserId, {
-                UserId: sessionStorage.UserId
-            })
+        // Récupère le nom de l'auteur du commentaire
+        this.$http.get('users/usernameById/' + this.comment.UserId)
             .then(res => {
                 return res.json();
             })
             .then(res => {
+                // Met les noms et prenoms en data
                 this.username += res.firstName + ' ' + res.lastName;
-                this.userId += sessionStorage.UserId
             })
     },
     methods: {
+        // Fonction de suppression de commentaire sur le serveur
         deleteComment () {
             this.$http.delete('comments/' + this.comment.id)
                 .then()
         }
-    },
-    computed: {
     }
 })
 </script>

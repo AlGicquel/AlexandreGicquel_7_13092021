@@ -20,17 +20,20 @@
             PostCard
         },
         created() {
+            // Vérifie si l'utilisateur est bien authentifié, s'il ne l'est pas, le redirige vers la page de connection
             if (!this.auth) {
                 this.$router.push('login');
             } else {
+                // S'il est connecté, lance la fonction de recupération des posts
                 this.$http.get('posts')
                     .then(res => {
                         return res.json();
                     })
                     .then(posts => {
+                        // l'objet retourné étant une map, on boucle dessus pour tout pusher dans le tableau en data
                         for (let post of posts) {
+                            // ajoute un paramètres comments aux posts pour un meilleur affichage, nous remplirons ce tableau dans le composant PostCard
                             post["comments"] = [];
-                            // console.log(post);
                             this.posts.push(post);
                         }
                     });

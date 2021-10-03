@@ -1,11 +1,12 @@
 <template>
     <div class="new-com">
+        <!-- Composant de création de commentaire -->
         <h1>Ajoutez un commentaire : </h1>
         <form action="">
             <textarea  class="form-control" rows="3" v-model="text"></textarea>
             <!-- <p>{{text}}</p> -->
             <div class="buttons">
-                <button class="btn btn-outline-danger">Ajouter une image</button>
+                <!-- <button class="btn btn-outline-danger">Ajouter une image</button> -->
                 <button class="btn btn-danger" @click="submit">Poster</button>
             </div>
             <div class="error" v-if="!error.isEmpty">
@@ -32,9 +33,11 @@ export default {
     },
     methods: {
         submit() {
+            // Vérifie s'il y a bien du text dans l'input
             if (this.text == '') {
                 alert('Votre commentaire est vide.')
             } else {
+                // S'il y en a, lance la fonction de création du commentaire sur le serveur
                 this.$http.post('comments', {
                     UserId: sessionStorage.UserId,
                     PostId: this.postId,
@@ -44,11 +47,13 @@ export default {
                     return res.json()
                 })
                 .then((comment) => {
-                    // this.$router.go();
+                    // Ajoute le commentaire dans le tableau comments en paramètre du post
                     this.comments.push(comment);
+                    // Vide l'input
                     this.text = '';
                 }, error => {
-                    this.error = error.body;
+                    // Affiche l'erreur eventuelle en bas du composant
+                    this.error = error.body.error;
                 })
             }
         },

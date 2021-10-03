@@ -1,14 +1,13 @@
 <template>
     <div class="new-post">
+        <!-- Composant de creation de post -->
         <h1>Exprimez vous :</h1>
         <!-- <form action=""> -->
             <textarea  class="form-control" rows="3" v-model="text"></textarea>
-            <!-- <p>{{text}}</p> -->
             <div class="buttons">
                 <label for="myfile">Ajouter un image :
                     <input type="file" id="myfile" name="myfile" >
                 </label>
-                <!-- <button class="btn btn-outline-danger">Ajouter une image</button> -->
                 <button class="btn btn-danger" @click="submit">Publier</button>
             </div>
             <div class="error" v-if="!error.isEmpty">
@@ -35,9 +34,11 @@ export default {
         submit() {
             // const img = document.getElementById('myfile');
             // console.log(img);
+            // Vérification si il y a bien du texte dans le post 
             if (this.text == '') {
                 this.error = 'Votre poste est vide.';
             } else {
+                // S'il y a du text, lance la fonction de création de post sur le serveur
                 this.$http.post('posts', {
                     UserId: sessionStorage.UserId,
                     text: this.text,
@@ -47,12 +48,15 @@ export default {
                     return res.json()
                 })
                 .then(post => {
-                    // this.$router.go()
+                    // Crée un paramètre comments au post créé pour être conforme au modèle du composant PostCard
                     post["comments"] = [];
+                    // Unshift pour ajouté le post en première position du tableau de posts
                     this.posts.unshift(post);
+                    // Vide l'input
                     this.text = '';
                 }, error => {
-                    this.error = error.body;
+                    // Affiche l'erreur en bas du composant
+                    this.error = error.body.error;
                 })
             }
         },

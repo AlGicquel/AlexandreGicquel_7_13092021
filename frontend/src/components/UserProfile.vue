@@ -1,14 +1,11 @@
 <template>
     <div class="">
+        <!-- Composant de page de profil -->
         <h1></h1>
         <CreatePost/>
         <hr>
         <div class="posts">
-            <!-- <div class="post" v-for="(id, i) of users[0].postsIds" :key="i">
-                <PostCard :postProp="posts[id]" :index="i"/>
-                
-            </div> -->
-        <PostCard v-for="(post, i) of posts" :key="i" :postProp="post"  :index="i"/>
+            <PostCard v-for="(post, i) of posts" :key="i" :postProp="post"  :index="i"/>
         </div>
     </div>
 </template>
@@ -24,15 +21,20 @@
             PostCard
         },
         created() {
+            // Vérifie si l'utilisateur est bien connecté, s'il ne l'est pas, le redirige vers la page de connection
             if (!this.auth) {
-                // this.$router.push('login')
+                this.$router.push('login');
             } else {
+                // S'il est connecté, lance la fonction de récupératon des posts dont il est l'auteur
                 this.$http.get('posts/allByUserId/' + sessionStorage.UserId)
                     .then(res => {
                         return res.json();
                     })
                     .then(posts => {
+                        // l'objet retourné étant une map, on boucle dessus pour tout pusher dans le tableau en data
                         for (let post of posts) {
+                            // ajoute un paramètres comments aux posts pour un meilleur affichage, nous remplirons ce tableau dans le composant PostCard
+                            post["comments"] = [];
                             this.posts.push(post)
                         }
                     });

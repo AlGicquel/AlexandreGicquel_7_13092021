@@ -15,6 +15,8 @@
                     </label>
                 </div>
                 <button class="btn btn-danger" @click="login">Se connecter</button>
+
+                <!-- Div qui affiche les errors de connection s'il y en a -->
                 <div class="error" v-if="!error.isEmpty">
                     <p>{{ error }}</p>
                 </div>
@@ -28,6 +30,7 @@ export default {
     name: 'Login',
     data () {
         return {
+            // valeurs par défault pour plus de rapidité pendant le dev, à vider pour la prod
             email: 'test@gmail.com',
             password: 'Test.1',
             error: ''
@@ -37,10 +40,8 @@ export default {
         auth: Boolean,
         level: Number
     },
-    beforeCreate () {
-
-    },
     methods: {
+        // Fonction de connection
         login() {
             this.$http.post('users/login', {
                 email: this.email,
@@ -49,28 +50,31 @@ export default {
                 if (response.ok) {
                     sessionStorage.UserId = response.body.UserId;
                     sessionStorage.token = response.body.token;
-                    this.sendAdminAction(response.body.level)
+                    // this.sendAdminAction(response.body.level);
+                    this.$store.dispatch('adminAction', response.body.level)
                     this.sendAuth();
                     this.$router.push('/')
-
                 } 
             }, error => {
                 this.error = error.body.error;
             })
         },
         
+        //Envoie l'information de connection au header qui la redistribue aux composants
         sendAuth() {
             this.$emit('auth-sent', {
-                auth: true,
-                
+                auth: true
             })
         },
+
+        // Envoie l'information de connection au store qui la redistribue aux composants
+        // Pas encore opérationelle
         sendAuthAction () {
             this.$store.dispatch('authentifiedAction')
         },
-        sendAdminAction (level) {
-            this.$store.dispatch('adminAction', level)
-        }
+        // sendAdminAction (level) {
+        //     this.$store.dispatch('adminAction', level)
+        // }
     }
 }
 </script>
