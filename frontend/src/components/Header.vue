@@ -93,7 +93,7 @@
                 this.$http.put('users/delete/' + sessionStorage.UserId, {
                     UserId: sessionStorage.UserId
                 })
-                .then(res => {
+                .then(() => {
                     this.$router.push('/signup');
                     this.auth = false;
                 }, err => {

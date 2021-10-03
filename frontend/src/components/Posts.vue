@@ -29,6 +29,8 @@
                     })
                     .then(posts => {
                         for (let post of posts) {
+                            post["comments"] = [];
+                            // console.log(post);
                             this.posts.push(post);
                         }
                     });

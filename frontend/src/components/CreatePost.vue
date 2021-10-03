@@ -33,8 +33,8 @@ export default {
     },
     methods: {
         submit() {
-            const img = document.getElementById('myfile');
-            console.log(img);
+            // const img = document.getElementById('myfile');
+            // console.log(img);
             if (this.text == '') {
                 this.error = 'Votre poste est vide.';
             } else {
@@ -47,8 +47,10 @@ export default {
                     return res.json()
                 })
                 .then(post => {
-                    this.$router.go()
-                    // this.posts.unshift(post);
+                    // this.$router.go()
+                    post["comments"] = [];
+                    this.posts.unshift(post);
+                    this.text = '';
                 }, error => {
                     this.error = error.body;
                 })

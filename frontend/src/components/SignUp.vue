@@ -63,8 +63,11 @@ export default {
             })
         },
         checkInput () {
+            // eslint-disable-next-line
             const testEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            // eslint-disable-next-line
             const testPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{5,20}$/;
+            // eslint-disable-next-line
             const testNames = /[A-Za-z éèçàêëñöùä\-]$/;
 
             if ( !testNames.test(this.firstName) || !testNames.test(this.lastName) ) {

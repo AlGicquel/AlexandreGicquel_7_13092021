@@ -23,16 +23,20 @@
             </div>
 
             <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
-            <div class="comments" v-if="comments.length !== 0">
+            <!-- <div class="comments" v-if="comments.length !== 0">
                 <h3>Commentaires ({{ comments.length }})</h3>
                 <Comment  v-for="(comment, i) of comments" :key="i" :comment="comment"/>
+            </div> -->
+            <div class="comments" v-if="postProp.comments.length !== 0">
+                <h3>Commentaires ({{ postProp.comments.length }})</h3>
+                <Comment  v-for="(comment, i) of postProp.comments" :key="i" :comment="comment"/>
             </div>
 
 
 
             <!-- affiche et fait disparaitre le composant de commentaire -->
             <div class="comment-form" :id="'postId-'+postProp.id">
-                <CreateComment v-if="newComment" :postId="postProp.id" :comments="comments" :newComment="newComment"/>
+                <CreateComment v-if="newComment" :postId="postProp.id" :comments="postProp.comments"/>
             </div>
         </div>
         <p v-if="!message.isEmpty" class="py-0">{{message}}</p>
@@ -73,7 +77,8 @@
                     })
                     .then(comments => {
                         for (let comment of comments) {
-                            this.comments.push(comment);
+                            // this.comments.push(comment);
+                            this.postProp.comments.push(comment);
                         }
                     });
         },

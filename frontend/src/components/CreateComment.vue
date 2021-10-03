@@ -47,7 +47,6 @@ export default {
                     // this.$router.go();
                     this.comments.push(comment);
                     this.text = '';
-                    this.newComment = false;
                 }, error => {
                     this.error = error.body;
                 })
