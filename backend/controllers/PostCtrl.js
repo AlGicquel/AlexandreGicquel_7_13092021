@@ -4,7 +4,10 @@ const db = require('../models');
 exports.getAllPosts = (req, res) => {
     db.Post.findAll({ 
             limit: 10, 
-            order: [['updatedAt', 'DESC']]
+            order: [['updatedAt', 'DESC']],
+            where: {
+                deleted: false
+            }
         })
         .then( posts => res.send(posts))
         .catch( error => console.log(error));
@@ -13,7 +16,8 @@ exports.getAllPosts = (req, res) => {
 exports.getAllPostsByUserId = (req, res) => {
     db.Post.findAll({
         where: {
-            UserId: req.params.UserId
+            UserId: req.params.UserId,
+            deleted: false
         }
     }).then( post => res.send(post))
     .catch(error => console.log(error));
@@ -52,11 +56,23 @@ exports.putPost = (req, res) => {
     .catch(error => console.log(error));
 };
 
-exports.deletePost = (req, res) => {
+exports.trueDeletePost = (req, res) => {
     db.Post.destroy({
         where: {
             id: req.params.id
         }
     }).then(res.status(200).json({ message: 'La publication a bien été supprimée.'}))
+    .catch(error => console.log(error));
+};
+
+exports.deletePost = (req, res) => {
+    db.Post.update(
+        {
+            deleted: true
+        },
+        {
+            where: { id:req.params.id }
+        }
+    ).then(res.status(200).json({ message: 'La publication a bien été supprimée.'}))
     .catch(error => console.log(error));
 };

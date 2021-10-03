@@ -10,7 +10,8 @@ exports.getAllComments = (req, res) => {
 exports.getAllCommentsByPostId = (req, res) => {
     db.Comment.findAll({
         where: {
-            PostId: req.params.PostId
+            PostId: req.params.PostId,
+            deleted: false
         }
     }).then( comment => res.send(comment))
     .catch(error => console.log(error))
@@ -19,7 +20,8 @@ exports.getAllCommentsByPostId = (req, res) => {
 exports.getAllCommentsByUserId =(req, res) => {
     db.Comment.findAll({
         where: {
-            UserId: req.params.UserId
+            UserId: req.params.UserId,
+            deleted: false
         }
     }).then( comment => res.send(comment))
     .catch(error => console.log(error))
@@ -56,11 +58,23 @@ exports.putComment = (req, res) => {
     .catch(error => console.log(error))
 };
 
-exports.deleteComment = (req, res) => {
+exports.truDeleteComment = (req, res) => {
     db.Comment.destroy({
         where: {
             id: req.params.id
         }
     }).then(res.send('Comment successfully deleted'))
+    .catch(error => console.log(error))
+};
+
+exports.deleteComment = (req, res) => {
+    db.Comment.update(
+        {
+            deleted: true
+        },
+        {
+            where: { id:req.params.id }
+        }
+    ).then(res.send('Comment successfully deleted'))
     .catch(error => console.log(error))
 };
