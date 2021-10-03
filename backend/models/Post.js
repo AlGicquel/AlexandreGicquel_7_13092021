@@ -6,8 +6,16 @@ module.exports = (sequelize, DataTypes) => {
         text: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        imageUrl: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        deleted: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
-
     });
     
     post.associate = models => {

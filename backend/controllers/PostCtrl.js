@@ -29,13 +29,15 @@ exports.getOnePost = (req, res) => {
 };
 
 exports.postPost = (req, res) => {
+
     db.Post.create({
         text: req.body.text,
-        UserId: req.body.UserId
+        UserId: req.body.UserId,
+        // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.body.imageUrl.filename}`
     })
         .then(submittedPost => res.send(submittedPost))
-        .catch(error => res.status(500).json({ error: "postpost" }));
-        // .catch(error => console.log(error));
+        // .catch(error => res.status(500).json({ error }));
+        .catch(error => console.log(error));
 };
 
 exports.putPost = (req, res) => {

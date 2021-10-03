@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        deleted: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        }
     });
 
     comment.associate = models => {
@@ -15,11 +20,5 @@ module.exports = (sequelize, DataTypes) => {
             }
         });
     };
-
-    // comment.associate = models => {
-    //     comment.belongsTo(models.User, {
-    //         onDelete: 'cascade'
-    //     });
-    // };
     return comment;
 }

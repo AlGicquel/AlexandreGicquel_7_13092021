@@ -33,12 +33,15 @@ export default {
     },
     methods: {
         submit() {
+            const img = document.getElementById('myfile');
+            console.log(img);
             if (this.text == '') {
                 this.error = 'Votre poste est vide.';
             } else {
                 this.$http.post('posts', {
                     UserId: sessionStorage.UserId,
-                    text: this.text
+                    text: this.text,
+                    // imageUrl: img.files
                 })
                 .then(res => {
                     return res.json()
