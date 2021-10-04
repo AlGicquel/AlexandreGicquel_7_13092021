@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 exports.getAllUsers =(req, res) => {
     db.User.findAll()
         .then( users => res.send(users))
-        .catch( error => console.log(error))
+        // .catch( error => console.log(error))
+        .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.getAllUsers'}));
 };
 
 exports.getUsernameById = (req, res) => {
@@ -30,7 +31,8 @@ exports.getUsernameById = (req, res) => {
             res.send(user[0]);
         }
     })
-    .catch(error => console.log(error));
+    // .catch(error => console.log(error));
+    .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.getUsernameById'}));
 };
 
 // exports.getLevelById = (req, res) => {
@@ -51,7 +53,8 @@ exports.getOneUser = (req, res) => {
             id: req.params.id
         }
     }).then( user => res.send(user))
-    .catch(error => console.log(error));
+    // .catch(error => console.log(error));
+    .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.getOneUser'}));
 };
 
 exports.signupUser = (req, res) => {
@@ -65,7 +68,7 @@ exports.signupUser = (req, res) => {
             password: hash
         })
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-        .catch(error => res.status(500).json({ message: 'Utilisateur déjà inscrit.'}));
+        .catch(() => res.status(500).json({ message: 'Utilisateur déjà inscrit.'}));
     })
 };
 
@@ -98,10 +101,12 @@ exports.loginUser = (req, res) => {
                     level: user[0].level
                 });
             })
-            .catch(error => console.log(error));
+            // .catch(error => console.log(error));
+            .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.login'}));
             // .catch(error => res.status(500).json({ error }));
     })
-    .catch(error => console.log(error));
+    // .catch(error => console.log(error));
+    .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.login'}));
 }
 
 exports.deleteUser = (req, res) => {
@@ -114,7 +119,8 @@ exports.deleteUser = (req, res) => {
             where: { id:req.params.id }
         },
     ).then(res.send('User successfully deleted'))
-    .catch(error => console.log(error));
+    // .catch(error => console.log(error));
+    .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.deleteUser'}));
 }
 
 exports.putUser = (req, res) => {
@@ -128,7 +134,8 @@ exports.putUser = (req, res) => {
             where: { id:req.params.id }
         }
     ).then(res.send('User successfully modified'))
-    .catch(error => console.log(error));
+    // .catch(error => console.log(error));
+    .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.putUser'}));
 };
 
 exports.trueDeleteUser = (req, res) => {
@@ -137,5 +144,6 @@ exports.trueDeleteUser = (req, res) => {
             id: req.params.id
         }
     }).then(res.send('User successfully deleted'))
-    .catch(error => console.log(error));
+    // .catch(error => console.log(error));
+    .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.trueDeleteUser'}));
 };

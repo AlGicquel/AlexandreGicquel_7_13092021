@@ -4,7 +4,9 @@ const db = require('../models');
 exports.getAllComments = (req, res) => {
     db.Comment.findAll()
         .then( comments => res.send(comments))
-        .catch( error => console.log(error));
+        // .catch( error => console.log(error));
+        .catch(() => res.status(500).json({ message: 'Problème serveur : CommentCtrl.getAllComments'}));
+
 };
 
 exports.getAllCommentsByPostId = (req, res) => {
@@ -14,7 +16,9 @@ exports.getAllCommentsByPostId = (req, res) => {
             deleted: false
         }
     }).then( comment => res.send(comment))
-    .catch(error => console.log(error))
+    // .catch(error => console.log(error))
+    .catch(() => res.status(500).json({ message: 'Problème serveur : CommentCtrl.getAllCommentsByPostId'}));
+
 };
 
 exports.getAllCommentsByUserId =(req, res) => {
@@ -24,7 +28,9 @@ exports.getAllCommentsByUserId =(req, res) => {
             deleted: false
         }
     }).then( comment => res.send(comment))
-    .catch(error => console.log(error))
+    // .catch(error => console.log(error))
+    .catch(() => res.status(500).json({ message: 'Problème serveur : CommentCtrl.getAllCommentsByUserId'}));
+
 };
 
 exports.getOneComment =(req, res) => {
@@ -33,7 +39,9 @@ exports.getOneComment =(req, res) => {
             id: req.params.id
         }
     }).then( comment => res.send(comment))
-    .catch(error => console.log(error))
+    // .catch(error => console.log(error))
+    .catch(() => res.status(500).json({ message: 'Problème serveur : CommentCtrl.getOneComment'}));
+
 };
 
 exports.postComment = (req, res) => {
@@ -43,7 +51,9 @@ exports.postComment = (req, res) => {
         PostId: req.body.PostId
     })
         .then(submittedComment => res.status(200).json(submittedComment))
-        .catch(error => console.log(error))
+        // .catch(error => console.log(error))
+        .catch(() => res.status(500).json({ message: 'Problème serveur : CommentCtrl.postComment'}));
+
 };
 
 exports.putComment = (req, res) => {
@@ -55,7 +65,9 @@ exports.putComment = (req, res) => {
             where: { id:req.params.id }
         }
     ).then(res.send('Comment successfully modified'))
-    .catch(error => console.log(error))
+    // .catch(error => console.log(error))
+    .catch(() => res.status(500).json({ message: 'Problème serveur : CommentCtrl.putComment'}));
+
 };
 
 exports.truDeleteComment = (req, res) => {
@@ -64,7 +76,9 @@ exports.truDeleteComment = (req, res) => {
             id: req.params.id
         }
     }).then(res.send('Comment successfully deleted'))
-    .catch(error => console.log(error))
+    // .catch(error => console.log(error))
+    .catch(() => res.status(500).json({ message: 'Problème serveur : CommentCtrl.truDeleteComment'}));
+
 };
 
 exports.deleteComment = (req, res) => {
@@ -76,5 +90,7 @@ exports.deleteComment = (req, res) => {
             where: { id:req.params.id }
         }
     ).then(res.send('Comment successfully deleted'))
-    .catch(error => console.log(error))
+    // .catch(error => console.log(error))
+    .catch(() => res.status(500).json({ message: 'Problème serveur : CommentCtrl.deleteComment'}));
+
 };

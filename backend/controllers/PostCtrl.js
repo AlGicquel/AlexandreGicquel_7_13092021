@@ -10,7 +10,8 @@ exports.getAllPosts = (req, res) => {
             }
         })
         .then( posts => res.send(posts))
-        .catch( error => console.log(error));
+        // .catch( error => console.log(error));
+        .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.getAllPosts'}));
 };
 
 exports.getAllPostsByUserId = (req, res) => {
@@ -20,7 +21,8 @@ exports.getAllPostsByUserId = (req, res) => {
             deleted: false
         }
     }).then( post => res.send(post))
-    .catch(error => console.log(error));
+        .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.getAllPostsByUserId'}));
+        // .catch(error => console.log(error));
 };
 
 exports.getOnePost = (req, res) => {
@@ -29,7 +31,9 @@ exports.getOnePost = (req, res) => {
             id: req.params.id
         }
     }).then( post => res.send(post))
-    .catch(error => console.log(error));
+    // .catch(error => console.log(error));
+    .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.getOnePost'}));
+
 };
 
 exports.postPost = (req, res) => {
@@ -41,7 +45,9 @@ exports.postPost = (req, res) => {
     })
         .then(submittedPost => res.send(submittedPost))
         // .catch(error => res.status(500).json({ error }));
-        .catch(error => console.log(error));
+        // .catch(error => console.log(error));
+        .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.postPost'}));
+
 };
 
 exports.putPost = (req, res) => {
@@ -53,7 +59,9 @@ exports.putPost = (req, res) => {
             where: { id:req.params.id }
         }
     ).then(res.send('Post successfully modified'))
-    .catch(error => console.log(error));
+    // .catch(error => console.log(error));
+    .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.putPost'}));
+
 };
 
 exports.trueDeletePost = (req, res) => {
@@ -62,7 +70,9 @@ exports.trueDeletePost = (req, res) => {
             id: req.params.id
         }
     }).then(res.status(200).json({ message: 'La publication a bien été supprimée.'}))
-    .catch(error => console.log(error));
+    // .catch(error => console.log(error));
+    .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.trueDeletePost'}));
+
 };
 
 exports.deletePost = (req, res) => {
@@ -74,5 +84,7 @@ exports.deletePost = (req, res) => {
             where: { id:req.params.id }
         }
     ).then(res.status(200).json({ message: 'La publication a bien été supprimée.'}))
-    .catch(error => console.log(error));
+    // .catch(error => console.log(error));
+    .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.deletePost'}));
+
 };
