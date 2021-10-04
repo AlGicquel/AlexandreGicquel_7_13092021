@@ -4,13 +4,18 @@
         <h1>Exprimez vous :</h1>
         <!-- <form action=""> -->
             <textarea  class="form-control" rows="3" v-model="text"></textarea>
-            <img :src="image" alt="">
-            <div class="buttons">
-                <label for="myfile">Ajouter un image :
-                    <input type="file" id="myfile" name="myfile" @change="testFileSubmit">
-                </label>
-                <button class="btn btn-danger" @click="testFileSubmit">Publier</button>
+            <div class="image-input" v-if="image != ''">
+                <img :src="image" alt="">
             </div>
+            <!-- <p>{{image}}</p> -->
+            <div class="buttons">
+                <label for="myfile" v-if="image == ''">Ajouter un image :
+                    <input type="file" id="myfile" name="myfile" @change="onFileChange">
+                </label>
+                <button class="btn btn-danger" v-if="image != ''" @click="removeImage">Supprimer la photo</button>
+                <button class="btn btn-danger" @click="submit">Publier</button>
+            </div>
+            <button @click="logimage" class="btn btn-outline-danger"> log</button>
             <!-- <div class="error" v-if="!error.isEmpty">
                 <p>{{ error }}</p>
             </div> -->
@@ -67,14 +72,14 @@ export default {
                 })
             }
         },
-        testFileSubmit (e) {
+        onFileChange (e) {
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length)
                 return;
             this.createImage(files[0]);
         },
         createImage(file) {
-            var image = new Image();
+            // var image = new Image();
             var reader = new FileReader();
             var vm = this;
 
@@ -82,6 +87,12 @@ export default {
                 vm.image = e.target.result;
             };
             reader.readAsDataURL(file);
+        },
+        removeImage () {
+            this.image = '';
+        },
+        logimage () {
+            console.log(this.image)
         }
     }
 }
