@@ -2,43 +2,48 @@
     <div class="post-card">
         <div v-if="!message.isEmpty" class="my-0 ">
             <!-- Affichage du post en lui-meme et de son auteur -->
-            <h2 class="comment-author">{{ fullName }}</h2>
-            <p class="comment-text">{{ postProp.text }}</p>
-            <p>id:{{postProp.id}}</p>
-            <p>UserId:{{postProp.UserId}}</p>
-            <p>level {{$store.state.level}}</p>
+            <img :src="postProp.imageUrl" alt="" class="post-image card-img-top" v-if="postProp.imageUrl">
 
-            <div class="like-comment-infos">
-                <!-- <span class="likes-comments-short">{{ postProp.likes.length }} likes</span> -->
-            </div>
+            <div class="post-card-content mt-0">
 
+                <h2 class="comment-author">{{ fullName }}</h2>
+                <p class="comment-text">{{ postProp.text }}</p>
+                <p>id:{{postProp.id}}</p>
+                <p>UserId:{{postProp.UserId}}</p>
+                <p>level {{$store.state.level}}</p>
 
-            <div class="buttons">
-                <button class="btn btn-outline-danger">J'aime</button>
-                <!-- Bouton qui fait apparaitre et disparaitre le composant CreateComment a la fin de la list de commentaires -->
-                <button class="btn btn-outline-danger" @click="toggleNewComment" id="comment-button">Commenter</button>
-                <!-- Bouton de suppression du post qui ne s'affiche que si l'utilisateur est l'auteur du post ou si c'est un admin -->
-                <button class="btn btn-danger" 
-                    v-if="postProp.UserId == UserId || $store.state.level == 1" 
-                    @click="deletePost">
-                        Supprimer
-                </button>
-            </div>
-
-            <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
-            <div class="comments" v-if="postProp.comments.length !== 0">
-                <h3>Commentaires ({{ postProp.comments.length }})</h3>
-                <Comment  v-for="(comment, i) of postProp.comments" :key="i" :comment="comment" :auth="auth"/>
-            </div>
+                <div class="like-comment-infos">
+                    <!-- <span class="likes-comments-short">{{ postProp.likes.length }} likes</span> -->
+                </div>
 
 
+                <div class="buttons">
+                    <button class="btn btn-outline-danger">J'aime</button>
+                    <!-- Bouton qui fait apparaitre et disparaitre le composant CreateComment a la fin de la list de commentaires -->
+                    <button class="btn btn-outline-danger" @click="toggleNewComment" id="comment-button">Commenter</button>
+                    <!-- Bouton de suppression du post qui ne s'affiche que si l'utilisateur est l'auteur du post ou si c'est un admin -->
+                    <button class="btn btn-danger" 
+                        v-if="postProp.UserId == UserId || $store.state.level == 1" 
+                        @click="deletePost">
+                            Supprimer
+                    </button>
+                </div>
 
-            <!-- affiche et fait disparaitre le composant de commentaire -->
-            <div class="comment-form" :id="'postId-'+postProp.id">
-                <CreateComment v-if="newComment" :postId="postProp.id" :comments="postProp.comments" :auth="auth"/>
+                <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
+                <div class="comments" v-if="postProp.comments.length !== 0">
+                    <h3>Commentaires ({{ postProp.comments.length }})</h3>
+                    <Comment  v-for="(comment, i) of postProp.comments" :key="i" :comment="comment" :auth="auth"/>
+                </div>
+
+
+
+                <!-- affiche et fait disparaitre le composant de commentaire -->
+                <div class="comment-form" :id="'postId-'+postProp.id">
+                    <CreateComment v-if="newComment" :postId="postProp.id" :comments="postProp.comments" :auth="auth"/>
+                </div>
+                <p v-if="!message.isEmpty" class="py-0">{{message}}</p>
             </div>
         </div>
-        <p v-if="!message.isEmpty" class="py-0">{{message}}</p>
     </div>
 </template>
 
@@ -144,9 +149,13 @@
         border-radius: 20px;
         /* background-color: rgba(255, 214, 214, 1); */
         background-color: #fff;
+        
+        box-shadow: 0 0 10px gainsboro;
+    }
+
+    .post-card-content {
         padding: 20px;
         margin: 20px auto;
-        box-shadow: 0 0 10px gainsboro;
     }
 
     .btn-outline-danger {
@@ -163,6 +172,13 @@
         transform: translateY(0);
         opacity: 1;
         transition: 0.2s ease-out;
+
+    }
+
+    .post-image {
+        width: 100%;
+        height: auto;
+        border-radius: 20px 20px 0 0;
 
     }
 

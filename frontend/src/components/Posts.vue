@@ -35,7 +35,9 @@
                             // ajoute un paramètres comments aux posts pour un meilleur affichage, nous remplirons ce tableau dans le composant PostCard
                             post["comments"] = [];
                             this.posts.push(post);
+
                         }
+                        console.log(this.posts)
                     }, () => {
                         sessionStorage.clear();
                         this.auth = false;

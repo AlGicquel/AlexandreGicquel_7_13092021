@@ -37,12 +37,16 @@ exports.getOnePost = (req, res) => {
 };
 
 exports.postPost = (req, res) => {
-
-    db.Post.create({
+    const postToCreate = (req.file) ? {
         text: req.body.text,
         UserId: req.body.UserId,
-        // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.body.imageUrl.filename}`
-    })
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : {
+        text: req.body.text,
+        UserId: req.body.UserId,
+    }
+
+    db.Post.create(postToCreate)
         .then(submittedPost => res.send(submittedPost))
         // .catch(error => res.status(500).json({ error }));
         // .catch(error => console.log(error));

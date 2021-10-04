@@ -2,24 +2,28 @@
     <div class="new-post">
         <!-- Composant de creation de post -->
         <h1>Exprimez vous :</h1>
-        <!-- <form action=""> -->
+        <form 
+            id="post-form" 
+            enctype="multipart/form-data"
+            @submit.prevent="submit">
             <textarea  class="form-control" rows="3" v-model="text"></textarea>
-            <div class="image-input" v-if="image != ''">
-                <img :src="image" alt="">
+            <div class="image-input">
+                <img :src="image" alt="" v-if="image != ''">
             </div>
             <!-- <p>{{image}}</p> -->
             <div class="buttons">
-                <label for="myfile" v-if="image == ''">Ajouter un image :
-                    <input type="file" id="myfile" name="myfile" @change="onFileChange">
+                <label for="myfile" v-show="image == ''">Ajouter un image :
+                    <input type="file" id="myfile" name="myfile" @change="onFileChange" ref="image">
                 </label>
                 <button class="btn btn-danger" v-if="image != ''" @click="removeImage">Supprimer la photo</button>
-                <button class="btn btn-danger" @click="submit">Publier</button>
+                <button class="btn btn-danger" >Publier</button>
             </div>
-            <button @click="logimage" class="btn btn-outline-danger"> log</button>
-            <!-- <div class="error" v-if="!error.isEmpty">
+            <!-- <button @click="logimage" class="btn btn-outline-danger"> log</button> -->
+
+            <div class="error" v-if="!error.isEmpty">
                 <p>{{ error }}</p>
-            </div> -->
-        <!-- </form> -->
+            </div>
+        </form>
     </div>
 </template>
 
@@ -30,7 +34,8 @@ export default {
         return {
             text: '',
             error:'',
-            image: ''
+            image: '',
+
         }
     },
     props: {
@@ -39,25 +44,30 @@ export default {
     },
     methods: {
         submit() {
-            // const img = document.getElementById('myfile');
+            // const img = document.getElementById('myfile').files[0];
             // console.log(img);
+
+            // Récupération du fichier à uploader
+            this.image = this.$refs.image.files[0];
+
+            const formData = new FormData();
+            if (typeof this.image != 'undefined') {
+                formData.append('image', this.image);
+
+            }
+            formData.append('UserId', sessionStorage.UserId);
+            formData.append('text', this.text);
+
+
             // Vérification si il y a bien du texte dans le post 
-            if (this.text == '') {
+            if (this.text == '' && this.image == '') {
                 this.error = 'Votre poste est vide.';
             } else {
                 // S'il y a du text, lance la fonction de création de post sur le serveur
-                this.$http.post('posts', {
-                    UserId: sessionStorage.UserId,
-                    text: this.text,
-                    // imageUrl: img.files
-                })
+                this.$http.post('posts', formData)
                 .then(res => {
                     return res.json()
-                }, () => {
-                        sessionStorage.clear();
-                        this.auth = false;
-                        this.$router.push('/login');
-                    })
+                })
                 .then(post => {
                     // Crée un paramètre comments au post créé pour être conforme au modèle du composant PostCard
                     post["comments"] = [];
@@ -65,10 +75,8 @@ export default {
                     this.posts.unshift(post);
                     // Vide l'input
                     this.text = '';
-                }, () => {
-                    sessionStorage.clear();
-                    this.auth = false;
-                    this.$router.push('/login');
+                    this.image = '';
+                    console.log(this.image)
                 })
             }
         },
@@ -79,12 +87,10 @@ export default {
             this.createImage(files[0]);
         },
         createImage(file) {
-            // var image = new Image();
             var reader = new FileReader();
-            var vm = this;
 
             reader.onload = (e) => {
-                vm.image = e.target.result;
+                this.image = e.target.result;
             };
             reader.readAsDataURL(file);
         },
@@ -116,7 +122,8 @@ export default {
     }
 
     img {
-        max-width: 50px;
-        max-height: 50px;
+        max-width: 100px;
+        height: auto;
+        max-height: 100px;
     }
 </style>
