@@ -4,11 +4,12 @@
         <h1>Exprimez vous :</h1>
         <!-- <form action=""> -->
             <textarea  class="form-control" rows="3" v-model="text"></textarea>
+            <img :src="image" alt="">
             <div class="buttons">
                 <label for="myfile">Ajouter un image :
-                    <input type="file" id="myfile" name="myfile" >
+                    <input type="file" id="myfile" name="myfile" @change="testFileSubmit">
                 </label>
-                <button class="btn btn-danger" @click="submit">Publier</button>
+                <button class="btn btn-danger" @click="testFileSubmit">Publier</button>
             </div>
             <!-- <div class="error" v-if="!error.isEmpty">
                 <p>{{ error }}</p>
@@ -23,7 +24,8 @@ export default {
     data () {
         return {
             text: '',
-            error:''
+            error:'',
+            image: ''
         }
     },
     props: {
@@ -65,6 +67,22 @@ export default {
                 })
             }
         },
+        testFileSubmit (e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+                return;
+            this.createImage(files[0]);
+        },
+        createImage(file) {
+            var image = new Image();
+            var reader = new FileReader();
+            var vm = this;
+
+            reader.onload = (e) => {
+                vm.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
     }
 }
 </script>
@@ -75,7 +93,7 @@ export default {
     }
 
     h1 {
-        font-size: 25px;
+        font-size: x-large;
     }
 
     .new-post {
@@ -84,5 +102,10 @@ export default {
         padding: 20px;
         margin: 20px auto;
         box-shadow: 0 0 10px rgba(255, 214, 214, 1);
+    }
+
+    img {
+        max-width: 50px;
+        max-height: 50px;
     }
 </style>

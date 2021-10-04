@@ -9,7 +9,7 @@
             <!-- Bouton de suppression du commentaire qui ne s'affiche que si l'utilisateur en est l'autheur ou un admin -->
             <button class="btn btn-danger d-flex align-self-right"
                 @click="deleteComment"
-                v-if="this.userId == comment.UserId || $store.state.level">
+                v-if="this.userId == comment.UserId || $store.state.level == 1">
                     Supprimer 
             </button>
         </div>
@@ -23,7 +23,7 @@ export default ({
     data () {
         return {
             username: '',
-            userId: '',
+            userId: 0,
             message: ''
         }
 
@@ -37,6 +37,7 @@ export default ({
 
     },
     created() {
+        this.userId = sessionStorage.UserId;
         // Récupère le nom de l'auteur du commentaire
         this.$http.get('users/usernameById/' + this.comment.UserId)
             .then(res => {
@@ -79,5 +80,9 @@ export default ({
         padding: 20px;
         margin: 20px auto;
         box-shadow: 0 0 10px rgb(220, 220, 220);
+    }
+
+    h3 {
+        font-size: x-large;
     }
 </style>

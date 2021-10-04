@@ -1,7 +1,7 @@
 <template>
     <div class="new-com">
         <!-- Composant de création de commentaire -->
-        <h1>Ajoutez un commentaire : </h1>
+        <h4>Ajoutez un commentaire : </h4>
         <form action="">
             <textarea  class="form-control" rows="3" v-model="text"></textarea>
             <!-- <p>{{text}}</p> -->
@@ -78,5 +78,9 @@ export default {
         padding: 20px;
         margin: 20px auto;
         box-shadow: 0 0 10px gainsboro;
+    }
+
+    h4 {
+        font-size: large;
     }
 </style>

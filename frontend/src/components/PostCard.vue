@@ -166,8 +166,10 @@
 
     }
 
-    h2 {
+    h2, h3 {
         font-size: x-large;
         
     }
+
+
 </style>
