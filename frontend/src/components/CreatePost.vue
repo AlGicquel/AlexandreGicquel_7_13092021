@@ -10,9 +10,9 @@
                 </label>
                 <button class="btn btn-danger" @click="submit">Publier</button>
             </div>
-            <div class="error" v-if="!error.isEmpty">
+            <!-- <div class="error" v-if="!error.isEmpty">
                 <p>{{ error }}</p>
-            </div>
+            </div> -->
         <!-- </form> -->
     </div>
 </template>
@@ -46,7 +46,11 @@ export default {
                 })
                 .then(res => {
                     return res.json()
-                })
+                }, () => {
+                        sessionStorage.clear();
+                        this.auth = false;
+                        this.$router.push('/login');
+                    })
                 .then(post => {
                     // Crée un paramètre comments au post créé pour être conforme au modèle du composant PostCard
                     post["comments"] = [];
@@ -54,9 +58,10 @@ export default {
                     this.posts.unshift(post);
                     // Vide l'input
                     this.text = '';
-                }, error => {
-                    // Affiche l'erreur en bas du composant
-                    this.error = error.body.error;
+                }, () => {
+                    sessionStorage.clear();
+                    this.auth = false;
+                    this.$router.push('/login');
                 })
             }
         },

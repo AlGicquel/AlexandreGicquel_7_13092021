@@ -28,14 +28,14 @@
             <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
             <div class="comments" v-if="postProp.comments.length !== 0">
                 <h3>Commentaires ({{ postProp.comments.length }})</h3>
-                <Comment  v-for="(comment, i) of postProp.comments" :key="i" :comment="comment"/>
+                <Comment  v-for="(comment, i) of postProp.comments" :key="i" :comment="comment" :auth="auth"/>
             </div>
 
 
 
             <!-- affiche et fait disparaitre le composant de commentaire -->
             <div class="comment-form" :id="'postId-'+postProp.id">
-                <CreateComment v-if="newComment" :postId="postProp.id" :comments="postProp.comments"/>
+                <CreateComment v-if="newComment" :postId="postProp.id" :comments="postProp.comments" :auth="auth"/>
             </div>
         </div>
         <p v-if="!message.isEmpty" class="py-0">{{message}}</p>
@@ -67,21 +67,37 @@
             this.$http.get('users/usernameById/' + this.postProp.UserId)
                     .then(res => {
                         return res.json();
+                    }, () => {
+                        sessionStorage.clear();
+                        this.auth = false;
+                        this.$router.push('/login');
                     })
                     .then(res => {
                         this.fullName += res.firstName + ' ' + res.lastName;
+                    }, () => {
+                        sessionStorage.clear();
+                        this.auth = false;
+                        this.$router.push('/login');
                     })
 
             // Récupère sur le serveur tous les commentaire associés au post
             this.$http.get('comments/allByPostId/' + this.postProp.id)
                     .then(res => {
                         return res.json();
+                    }, () => {
+                        sessionStorage.clear();
+                        this.auth = false;
+                        this.$router.push('/login');
                     })
                     .then(comments => {
                         for (let comment of comments) {
                             // push les commentaires récupérés dans le paramètres comments du post pour un meilleur affichage
                             this.postProp.comments.push(comment);
                         }
+                    }, () => {
+                        sessionStorage.clear();
+                        this.auth = false;
+                        this.$router.push('/login');
                     });
         },
         methods: {
@@ -95,6 +111,10 @@
                 this.$http.delete('posts/'+ this.postProp.id)
                     .then(res => {
                         this.message = res.body.message;
+                    }, () => {
+                        sessionStorage.clear();
+                        this.auth = false;
+                        this.$router.push('/login');
                     });
 
             },
@@ -104,7 +124,8 @@
                 UserId: String,
                 text: String,
             },
-            level: Number
+            level: Number,
+            auth: Boolean
         },
         components: {
             CreateComment,

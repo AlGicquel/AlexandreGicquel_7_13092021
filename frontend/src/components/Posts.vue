@@ -2,10 +2,10 @@
     <div class="">
         <!-- <p>posts: auth={{auth}}</p> -->
         <!-- Composant de création de post -->
-        <CreatePost :posts="posts"/>
+        <CreatePost :posts="posts" :auth="auth"/>
         <hr>
         <!-- Loop sur la liste de post pour créer un composant pour chaque -->
-        <PostCard v-for="(post, i) of posts" :key="i" :postProp="post"/>
+        <PostCard v-for="(post, i) of posts" :key="i" :postProp="post" :auth="auth"/>
     </div>
 </template>
 
@@ -36,6 +36,10 @@
                             post["comments"] = [];
                             this.posts.push(post);
                         }
+                    }, () => {
+                        sessionStorage.clear();
+                        this.auth = false;
+                        this.$router.push('/login');
                     });
             }
         },

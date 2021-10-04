@@ -32,24 +32,40 @@ export default ({
         comment: {
             text: String,
             UserId: Number
-        }
+        },
+        auth: Boolean
+
     },
     created() {
         // Récupère le nom de l'auteur du commentaire
         this.$http.get('users/usernameById/' + this.comment.UserId)
             .then(res => {
                 return res.json();
+            }, () => {
+                sessionStorage.clear();
+                this.auth = false;
+                this.$router.push('/login');
             })
             .then(res => {
                 // Met les noms et prenoms en data
                 this.username += res.firstName + ' ' + res.lastName;
+            }, () => {
+                sessionStorage.clear();
+                this.auth = false;
+                this.$router.push('/login');
             })
     },
     methods: {
         // Fonction de suppression de commentaire sur le serveur
         deleteComment () {
             this.$http.delete('comments/' + this.comment.id)
-                .then()
+                .then(() => {
+
+                }, () => {
+                    sessionStorage.clear();
+                    this.auth = false;
+                    this.$router.push('/login');
+                })
         }
     }
 })

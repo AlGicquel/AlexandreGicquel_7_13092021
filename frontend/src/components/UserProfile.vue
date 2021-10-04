@@ -2,10 +2,10 @@
     <div class="">
         <!-- Composant de page de profil -->
         <h1></h1>
-        <CreatePost/>
+        <CreatePost :auth="auth"/>
         <hr>
         <div class="posts">
-            <PostCard v-for="(post, i) of posts" :key="i" :postProp="post"  :index="i"/>
+            <PostCard v-for="(post, i) of posts" :key="i" :postProp="post"  :index="i" :auth="auth"/>
         </div>
     </div>
 </template>
@@ -37,6 +37,10 @@
                             post["comments"] = [];
                             this.posts.push(post)
                         }
+                    }, () => {
+                        sessionStorage.clear();
+                        this.auth = false;
+                        this.$router.push('/login');
                     });
             }
         },

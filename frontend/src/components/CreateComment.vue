@@ -9,9 +9,9 @@
                 <!-- <button class="btn btn-outline-danger">Ajouter une image</button> -->
                 <button class="btn btn-danger" @click="submit">Poster</button>
             </div>
-            <div class="error" v-if="!error.isEmpty">
+            <!-- <div class="error" v-if="!error.isEmpty">
                 <p>{{ error }}</p>
-            </div>
+            </div> -->
         </form>
     </div>
 </template>
@@ -45,15 +45,20 @@ export default {
                 })
                 .then(res => {
                     return res.json()
+                }, () => {
+                    sessionStorage.clear();
+                    this.auth = false;
+                    this.$router.push('/login');
                 })
                 .then((comment) => {
                     // Ajoute le commentaire dans le tableau comments en paramètre du post
                     this.comments.push(comment);
                     // Vide l'input
                     this.text = '';
-                }, error => {
-                    // Affiche l'erreur eventuelle en bas du composant
-                    this.error = error.body.error;
+                }, () => {
+                    sessionStorage.clear();
+                    this.auth = false;
+                    this.$router.push('/login');
                 })
             }
         },
