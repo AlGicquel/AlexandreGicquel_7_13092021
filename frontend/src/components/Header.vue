@@ -32,8 +32,8 @@
                             <router-link to="/signup" class="nav-link">S'inscrire</router-link>
                         </li>
                         <!-- Display of user level, delete for production -->
-                        <li class="nav-item">
-                            <span class="nav-link"> level: {{$store.state.level}}</span>
+                        <li class="nav-item" v-if="$store.state.level === 1">
+                            <span class="nav-link">Admin</span>
                         </li>
 
                         <!-- Dropdown for options, only contains delete user for now -->

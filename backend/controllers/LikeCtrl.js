@@ -21,11 +21,12 @@ exports.getAllLikesByUserId = (req, res) => {
 exports.getAllLikesByPostId = (req, res) => {
     db.Like.findAll({
         where: {
-            PostId: req.params.Post
+            PostId: req.params.PostId
         }
     }).then( likes => res.send(likes))
-        .catch(() => res.status(500).json({ message: 'Problème serveur : LikeCtrl.getAllLikesByLikeId'}));
+        // .catch(() => res.status(500).json({ message: 'Problème serveur : LikeCtrl.getAllLikesByLikeId'}));
         // .catch(error => console.log(error));
+        .catch(error => res.status(500).json({ error }));
 };
 
 exports.getAllLikesByCommentId = (req, res) => {
@@ -62,7 +63,8 @@ exports.postLike = (req, res) => {
 exports.deleteLike = (req, res) => {
     db.Like.destroy({
         where: {
-            id: req.params.id
+            UserId: req.params.UserId,
+            PostId: req.params.PostId
         }
     }).then(res.status(200).json({ message: 'La publication a bien été supprimée.'}))
     // .catch(error => console.log(error));

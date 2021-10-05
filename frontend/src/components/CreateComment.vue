@@ -45,20 +45,12 @@ export default {
                 })
                 .then(res => {
                     return res.json()
-                }, () => {
-                    sessionStorage.clear();
-                    this.auth = false;
-                    this.$router.push('/login');
                 })
                 .then((comment) => {
                     // Ajoute le commentaire dans le tableau comments en paramètre du post
                     this.comments.push(comment);
                     // Vide l'input
                     this.text = '';
-                }, () => {
-                    sessionStorage.clear();
-                    this.auth = false;
-                    this.$router.push('/login');
                 })
             }
         },

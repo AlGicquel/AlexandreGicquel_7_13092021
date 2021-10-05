@@ -35,8 +35,23 @@ module.exports = (sequelize, DataTypes) => {
 
     user.associate = models => {
         user.hasMany(models.Comment, {
-            // onDelete: 'cascade'
+            // onDelete: 'cascade',
+            foreignKey: {
+                // name: 'UserIdComment'
+
+            }
         });
     };
+
+    // user.associate = models => {
+    //     user.hasMany(models.Like, {
+    //         // onDelete: 'cascade',
+    //         foreignKey: {
+    //             // name: 'UserIdLike'
+
+    //         }
+    //     });
+    // };
+
     return user;
 }

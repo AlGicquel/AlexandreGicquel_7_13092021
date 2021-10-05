@@ -31,8 +31,8 @@ exports.getUsernameById = (req, res) => {
             res.send(user[0]);
         }
     })
-    // .catch(error => console.log(error));
-    .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.getUsernameById'}));
+    .catch(error => console.log(error));
+    // .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.getUsernameById'}));
 };
 
 exports.getLevelById = (req, res) => {

@@ -33,13 +33,10 @@
                         for (let post of posts) {
                             // ajoute un paramètres comments aux posts pour un meilleur affichage, nous remplirons ce tableau dans le composant PostCard
                             post["comments"] = [];
+                            // post["likes"] = [];
                             this.posts.push(post);
 
                         }
-                    }, () => {
-                        sessionStorage.clear();
-                        this.auth = false;
-                        this.$router.push('/login');
                     });
             }
         },

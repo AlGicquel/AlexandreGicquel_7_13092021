@@ -66,8 +66,9 @@ export default {
                     return res.json()
                 })
                 .then(post => {
-                    // Crée un paramètre comments au post créé pour être conforme au modèle du composant PostCard
+                    // Crée un paramètre comments et likes au post créé pour être conforme au modèle du composant PostCard
                     post["comments"] = [];
+                    post["likes"] = [];
                     // Unshift pour ajouté le post en première position du tableau de posts
                     this.posts.unshift(post);
                     // Vide l'input

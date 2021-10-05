@@ -10,7 +10,7 @@ router.get('/',  UserCtrl.getAllUsers);
 
 router.get('/:id', auth, UserCtrl.getOneUser);
 router.get('/usernameById/:id', auth, UserCtrl.getUsernameById);
-router.get('/levelById/id', UserCtrl.getLevelById);
+router.get('/levelById/:id', UserCtrl.getLevelById);
 router.post('/signup', UserCtrl.signupUser);
 router.post('/login', UserCtrl.loginUser);
 router.put('/:id',  UserCtrl.putUser);

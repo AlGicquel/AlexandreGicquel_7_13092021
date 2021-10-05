@@ -9,9 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     });
     
     like.associate = models => {
-        like.belongsTo(models.User, {
+        like.hasOne(models.User, {
             foreignKey: {
-                allowNull: false
+                allowNull: true
             }
         });
     };
@@ -24,13 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         });
     };
 
-    like.associate = models => {
-        like.belongsTo(models.Comment, {
-            foreignKey: {
-                allowNull: true
-            }
-        });
-    };
 
     return like;
 }

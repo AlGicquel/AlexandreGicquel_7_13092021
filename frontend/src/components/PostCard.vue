@@ -8,9 +8,8 @@
 
                 <h2 class="comment-author">{{ fullName }}</h2>
                 <p class="comment-text">{{ postProp.text }}</p>
-                <p>id:{{postProp.id}}</p>
-                <p>UserId:{{postProp.UserId}}</p>
-                <p>level {{$store.state.level}}</p>
+                <p v-if="postProp.likes.length > 0">{{postProp.likes.length}} likes</p>
+                <p>{{postProp.likes}}</p>
 
                 <div class="like-comment-infos">
                     <!-- <span class="likes-comments-short">{{ postProp.likes.length }} likes</span> -->
@@ -18,7 +17,8 @@
 
 
                 <div class="buttons">
-                    <button class="btn btn-outline-danger">J'aime</button>
+                    <button class="btn btn-outline-danger" @click="like" v-if="!userHasLiked">J'aime</button>
+                    <button class="btn btn-danger" @click="deleteLike" v-if="userHasLiked">Je n'aime plus</button>
                     <!-- Bouton qui fait apparaitre et disparaitre le composant CreateComment a la fin de la list de commentaires -->
                     <button class="btn btn-outline-danger" @click="toggleNewComment" id="comment-button">Commenter</button>
                     <!-- Bouton de suppression du post qui ne s'affiche que si l'utilisateur est l'auteur du post ou si c'est un admin -->
@@ -59,12 +59,16 @@
                 newComment: false,
                 fullName: '',
                 comments: [],
-                UserId: 0
+                UserId: 0,
+                likes: [],
+                userHasLiked: false
             }
 
         },
         created() {
             this.UserId = sessionStorage.UserId;
+            this.userHasLiked = this.postProp.likes.includes(parseInt(this.UserId));
+            // this.likes = postProp.likes;
 
             // Récupère sur le serveur le nom de l'auteur du post
             this.$http.get('users/usernameById/' + this.postProp.UserId)
@@ -77,13 +81,9 @@
                     })
                     .then(res => {
                         this.fullName += res.firstName + ' ' + res.lastName;
-                    }, () => {
-                        sessionStorage.clear();
-                        this.auth = false;
-                        this.$router.push('/login');
                     })
 
-            // Récupère sur le serveur tous les commentaire associés au post
+            // Récupère sur le serveur tous les commentaires associés au post
             this.$http.get('comments/allByPostId/' + this.postProp.id)
                     .then(res => {
                         return res.json();
@@ -99,11 +99,20 @@
                             // push les commentaires récupérés dans le paramètres comments du post pour un meilleur affichage
                             this.postProp.comments.push(comment);
                         }
-                    }, () => {
-                        sessionStorage.clear();
-                        this.auth = false;
-                        this.$router.push('/login');
                     });
+
+            // Récupère sur le serveur tous les likes associés au post
+            // this.$http.get('likes/allByPostId/' + this.postProp.id)
+            //         .then(res => {
+            //             return res.json();
+            //         }, error => console.log(error))
+            //         .then(likes => {
+            //             this.postProp.likes = [];
+            //             for (let like of likes) {
+            //                 this.postProp.likes.push(like.UserId);
+            //             }
+            //             this.userHasLiked = this.postProp.likes.includes(parseInt(this.UserId));
+            //         })
         },
         methods: {
             // gère l'affichage et l'animation de la div de nouveau commentaire
@@ -116,10 +125,6 @@
                 this.$http.delete('posts/'+ this.postProp.id)
                     .then(() => {
                         this.$emit('delete-post', {PostId: this.postProp.id});
-                    }, () => {
-                        sessionStorage.clear();
-                        this.auth = false;
-                        this.$router.push('/login');
                     });
 
             },
@@ -129,12 +134,58 @@
                         this.postProp.comments.splice(i,1);
                     }
                 }
+            },
+            like() {
+                // if(!this.userHasLiked) {
+                //     this.$http.post('likes', {
+                //         UserId: parseInt(sessionStorage.UserId),
+                //         PostId: this.postProp.id
+                //     }).then(res => {
+                //         this.postProp.likes.push(res.body.UserId);
+                //         this.userHasLiked = true;
+                //     })
+                // }
+
+                if (!this.userHasLiked) {
+                    this.$http.post('posts/like/' + this.postProp.id, {
+                        UserId: parseInt(this.UserId)
+                    }).then(() => {
+                        this.postProp.likes.push(parseInt(this.UserId));
+                        this.userHasLiked = true;
+                    })
+                }
+            },
+            deleteLike() {
+                if (this.userHasLiked) {
+                    // this.$http.delete('likes/' + sessionStorage.UserId + '/' + this.postProp.id)
+                    // .then(() => {
+                    //     for (let i=0; i < this.postProp.likes.length; i++) {
+                    //         if (this.postProp.likes[i] == this.UserId) {
+                    //             this.postProp.likes.splice(i,1)
+                    //         }
+                    //     }
+                    //     this.userHasLiked = false;
+                    // })
+
+                    this.$http.post('posts/dislike/' + this.postProp.id, {
+                        UserId: parseInt(this.UserId)
+                    }).then(() => {
+                        for (let i=0; i<this.postProp.likes.length; i++) {
+                            if (this.postProp.likes[i] == this.UserId) {
+                                this.postProp.likes.splice(i,1);
+                            }
+                        }
+                        this.userHasLiked = false;
+                    })
+
+                }
             }
         },
         props:{
             postProp: {
                 UserId: String,
                 text: String,
+                likes: Array
             },
             level: Number,
             auth: Boolean
