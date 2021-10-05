@@ -50,7 +50,7 @@ exports.postPost = (req, res) => {
         .then(submittedPost => res.send(submittedPost))
         // .catch(error => res.status(500).json({ error }));
         // .catch(error => console.log(error));
-        .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.postPost'}));
+        .catch((error) => res.status(500).json({ message: 'Problème serveur : PostCtrl.postPost'}));
 
 };
 

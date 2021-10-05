@@ -113,6 +113,10 @@
         created () {
             if (sessionStorage.UserId && sessionStorage.token) {
                 this.auth = true;
+                this.$http.get('users/levelById/' + sessionStorage.UserId)
+                .then(res => {
+                    this.$store.state.level = res.body.level;
+                })
             }
         }
 }

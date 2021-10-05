@@ -1,6 +1,5 @@
 <template>
     <div class="">
-        <!-- <p>posts: auth={{auth}}</p> -->
         <!-- Composant de création de post -->
         <CreatePost :posts="posts" :auth="auth"/>
         <hr>

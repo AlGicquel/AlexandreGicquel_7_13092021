@@ -35,17 +35,17 @@ exports.getUsernameById = (req, res) => {
     .catch(() => res.status(500).json({ message: 'Problème serveur : UserCtrl.getUsernameById'}));
 };
 
-// exports.getLevelById = (req, res) => {
-//     db.User.findAll({
-//         attributes: [
-//             'level'
-//         ],
-//         where: {
-//             id: req.params.id
-//         }
-//     }).then( user => res.send(user))
-//     .catch(error => console.log(error));
-// };
+exports.getLevelById = (req, res) => {
+    db.User.findAll({
+        attributes: [
+            'level'
+        ],
+        where: {
+            id: req.params.id
+        }
+    }).then( user => res.send(user))
+    .catch(error => console.log(error));
+};
 
 exports.getOneUser = (req, res) => {
     db.User.findAll({

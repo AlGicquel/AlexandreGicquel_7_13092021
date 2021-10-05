@@ -48,7 +48,7 @@ export default {
 
             // Création du formulaire a envoyer dans la requête
             const formData = new FormData();
-            if (typeof this.image != 'undefined') {
+            if (typeof this.file != 'undefined') {
                 formData.append('image', this.file);
 
             }
