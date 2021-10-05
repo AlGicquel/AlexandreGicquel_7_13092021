@@ -1,6 +1,6 @@
 <template>
     <div class="post-card">
-        <div v-if="!message.isEmpty" class="my-0 ">
+        <div class="my-0 ">
             <!-- Affichage du post en lui-meme et de son auteur -->
             <img :src="postProp.imageUrl" alt="" class="post-image card-img-top" v-if="postProp.imageUrl">
 
@@ -32,7 +32,7 @@
                 <!-- Loop sur la list de commentaire du post, l'affiche si elle n'est pas vide -->
                 <div class="comments" v-if="postProp.comments.length !== 0">
                     <h3>Commentaires ({{ postProp.comments.length }})</h3>
-                    <Comment  v-for="(comment, i) of postProp.comments" :key="i" :comment="comment" :auth="auth"/>
+                    <Comment  v-for="(comment, i) of postProp.comments" :key="i" :comment="comment" :auth="auth" @delete-comment="deleteCommment"/>
                 </div>
 
 
@@ -41,7 +41,6 @@
                 <div class="comment-form" :id="'postId-'+postProp.id">
                     <CreateComment v-if="newComment" :postId="postProp.id" :comments="postProp.comments" :auth="auth"/>
                 </div>
-                <p v-if="!message.isEmpty" class="py-0">{{message}}</p>
             </div>
         </div>
     </div>
@@ -60,8 +59,7 @@
                 newComment: false,
                 fullName: '',
                 comments: [],
-                UserId: 0,
-                message: ''
+                UserId: 0
             }
 
         },
@@ -95,6 +93,8 @@
                         this.$router.push('/login');
                     })
                     .then(comments => {
+                        // vide le tableau de commentaire pour éviter les doublons
+                        this.postProp.comments = [];
                         for (let comment of comments) {
                             // push les commentaires récupérés dans le paramètres comments du post pour un meilleur affichage
                             this.postProp.comments.push(comment);
@@ -114,8 +114,8 @@
             // supprime le post
             deletePost() {
                 this.$http.delete('posts/'+ this.postProp.id)
-                    .then(res => {
-                        this.message = res.body.message;
+                    .then(() => {
+                        this.$emit('delete-post', {PostId: this.postProp.id});
                     }, () => {
                         sessionStorage.clear();
                         this.auth = false;
@@ -123,6 +123,13 @@
                     });
 
             },
+            deleteCommment(payload) {
+                for (let i=0; i<this.postProp.comments.length; i++) {
+                    if (this.postProp.comments[i].id == payload.CommentId) {
+                        this.postProp.comments.splice(i,1);
+                    }
+                }
+            }
         },
         props:{
             postProp: {

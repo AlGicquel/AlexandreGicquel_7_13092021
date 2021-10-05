@@ -12,13 +12,13 @@
             </div>
             <!-- <p>{{image}}</p> -->
             <div class="buttons">
+                <!-- <i class="fas fa-upload"></i> -->
                 <label for="myfile" v-show="image == ''">Ajouter un image :
                     <input type="file" id="myfile" name="myfile" @change="onFileChange" ref="image">
                 </label>
                 <button class="btn btn-danger" v-if="image != ''" @click="removeImage">Supprimer la photo</button>
                 <button class="btn btn-danger" >Publier</button>
             </div>
-            <!-- <button @click="logimage" class="btn btn-outline-danger"> log</button> -->
 
             <div class="error" v-if="!error.isEmpty">
                 <p>{{ error }}</p>
@@ -44,12 +44,10 @@ export default {
     },
     methods: {
         submit() {
-            // const img = document.getElementById('myfile').files[0];
-            // console.log(img);
-
             // Récupération du fichier à uploader
             this.image = this.$refs.image.files[0];
 
+            // Création du formulaire a envoyer dans la requête
             const formData = new FormData();
             if (typeof this.image != 'undefined') {
                 formData.append('image', this.image);
@@ -75,8 +73,10 @@ export default {
                     this.posts.unshift(post);
                     // Vide l'input
                     this.text = '';
+                    // console.log('image: ', this.$refs.image.files);
                     this.image = '';
-                    console.log(this.image)
+                    // this.$refs.image.files = new FileList();
+                    // console.log('image: ', this.image);
                 })
             }
         },
@@ -96,9 +96,7 @@ export default {
         },
         removeImage () {
             this.image = '';
-        },
-        logimage () {
-            console.log(this.image)
+            // this.$refs.image.files = [];
         }
     }
 }

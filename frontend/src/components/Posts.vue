@@ -5,7 +5,7 @@
         <CreatePost :posts="posts" :auth="auth"/>
         <hr>
         <!-- Loop sur la liste de post pour créer un composant pour chaque -->
-        <PostCard v-for="(post, i) of posts" :key="i" :postProp="post" :auth="auth"/>
+        <PostCard v-for="(post, i) of posts" :key="i" :postProp="post" :auth="auth" @delete-post="deletePost"/>
     </div>
 </template>
 
@@ -37,7 +37,6 @@
                             this.posts.push(post);
 
                         }
-                        console.log(this.posts)
                     }, () => {
                         sessionStorage.clear();
                         this.auth = false;
@@ -56,7 +55,13 @@
             level: Number
         },
         methods: {
-            
+            deletePost(payload) {
+                for (let i=0; i<this.posts.length; i++) {
+                    if (this.posts[i].id == payload.PostId) {
+                        this.posts.splice(i,1);
+                    }
+                }
+            }
         },
         computed: {
             

@@ -31,7 +31,9 @@ export default ({
     props: {
         comment: {
             text: String,
-            UserId: Number
+            UserId: Number,
+            PostId: Number,
+            id: Number
         },
         auth: Boolean
 
@@ -61,8 +63,8 @@ export default ({
         deleteComment () {
             this.$http.delete('comments/' + this.comment.id)
                 .then(() => {
-
-                }, () => {
+                        this.$emit('delete-comment', {CommentId: this.comment.id});
+                    }, () => {
                     sessionStorage.clear();
                     this.auth = false;
                     this.$router.push('/login');
