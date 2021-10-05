@@ -10,14 +10,13 @@
             <div class="image-input">
                 <img :src="image" alt="" v-if="image != ''">
             </div>
-            <!-- <p>{{image}}</p> -->
             <div class="buttons">
                 <!-- <i class="fas fa-upload"></i> -->
                 <label for="myfile" v-show="image == ''">Ajouter un image :
                     <input type="file" id="myfile" name="myfile" @change="onFileChange" ref="image">
                 </label>
                 <button class="btn btn-danger" v-if="image != ''" @click="removeImage">Supprimer la photo</button>
-                <button class="btn btn-danger" >Publier</button>
+                <button class="btn btn-danger" type="submit">Publier</button>
             </div>
 
             <div class="error" v-if="!error.isEmpty">
@@ -35,7 +34,7 @@ export default {
             text: '',
             error:'',
             image: '',
-
+            file:''
         }
     },
     props: {
@@ -45,12 +44,12 @@ export default {
     methods: {
         submit() {
             // Récupération du fichier à uploader
-            this.image = this.$refs.image.files[0];
+            this.file = this.$refs.image.files[0];
 
             // Création du formulaire a envoyer dans la requête
             const formData = new FormData();
             if (typeof this.image != 'undefined') {
-                formData.append('image', this.image);
+                formData.append('image', this.file);
 
             }
             formData.append('UserId', sessionStorage.UserId);
@@ -58,7 +57,7 @@ export default {
 
 
             // Vérification si il y a bien du texte dans le post 
-            if (this.text == '' && this.image == '') {
+            if (this.text == '' && this.file == '') {
                 this.error = 'Votre poste est vide.';
             } else {
                 // S'il y a du text, lance la fonction de création de post sur le serveur
@@ -72,11 +71,8 @@ export default {
                     // Unshift pour ajouté le post en première position du tableau de posts
                     this.posts.unshift(post);
                     // Vide l'input
-                    this.text = '';
-                    // console.log('image: ', this.$refs.image.files);
                     this.image = '';
-                    // this.$refs.image.files = new FileList();
-                    // console.log('image: ', this.image);
+                    document.getElementById('post-form').reset();
                 })
             }
         },
@@ -94,9 +90,17 @@ export default {
             };
             reader.readAsDataURL(file);
         },
-        removeImage () {
+        removeImage (e) {
+            // Empêche le submit
+            e.preventDefault();
+            // Stock le text car il va être reset avec le formulaire
+            const text = this.text;
+            // supprime l'image du dom
             this.image = '';
-            // this.$refs.image.files = [];
+            // Vide le formulaire
+            document.getElementById('post-form').reset();
+            // Remet le text dans le formulaire
+            this.text = text;
         }
     }
 }
