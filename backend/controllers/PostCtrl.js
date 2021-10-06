@@ -24,8 +24,8 @@ exports.getAllPosts = (req, res) => {
             }
             res.send(posts)
         })
-        .catch( error => console.log(error));
-        // .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.getAllPosts'}));
+        // .catch( error => console.log(error));
+        .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.getAllPosts'}));
 };
 
 exports.getAllPostsByUserId = (req, res) => {

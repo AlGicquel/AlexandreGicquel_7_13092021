@@ -73,6 +73,7 @@ export default {
                     this.posts.unshift(post);
                     // Vide l'input
                     this.image = '';
+                    this.text = '';
                     document.getElementById('post-form').reset();
                 })
             }

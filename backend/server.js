@@ -25,7 +25,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/posts', PostRoutes);
 app.use('/api/users', UserRoutes);
 app.use('/api/comments', CommentRoutes);
-app.use('/api/likes', LikeRoutes);
+// app.use('/api/likes', LikeRoutes);
 
 
 db.sequelize.sync({ 
