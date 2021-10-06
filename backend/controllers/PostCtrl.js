@@ -30,13 +30,29 @@ exports.getAllPosts = (req, res) => {
 
 exports.getAllPostsByUserId = (req, res) => {
     db.Post.findAll({
+        limit: 10, 
+        order: [['updatedAt', 'DESC']],
         where: {
             UserId: req.params.UserId,
             deleted: false
         }
-    }).then( post => res.send(post))
-        .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.getAllPostsByUserId'}));
-        // .catch(error => console.log(error));
+    }).then( posts => {
+        for (let post of posts) {
+            let likesArr = post.likes.split(' ');
+            let likesArrInt = [];
+            for (let like of likesArr) {
+                likesArrInt.push(parseInt(like));
+            }
+            likesArrInt.splice(0,1)
+            delete post.likes;
+            
+            post['likes'] = likesArrInt;
+            
+        }
+            res.send(posts)
+        })
+        // .catch(() => res.status(500).json({ message: 'Problème serveur : PostCtrl.getAllPostsByUserId'}));
+        .catch(error => console.log(error));
 };
 
 exports.getOnePost = (req, res) => {

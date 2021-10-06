@@ -37,10 +37,6 @@
                             post["comments"] = [];
                             this.posts.push(post)
                         }
-                    }, () => {
-                        sessionStorage.clear();
-                        this.auth = false;
-                        this.$router.push('/login');
                     });
             }
         },
