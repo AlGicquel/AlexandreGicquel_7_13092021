@@ -9,9 +9,9 @@
                 <!-- <button class="btn btn-outline-danger">Ajouter une image</button> -->
                 <button class="btn btn-danger" @click="submit">Poster</button>
             </div>
-            <!-- <div class="error" v-if="!error.isEmpty">
+            <div class="error" v-if="!error.isEmpty">
                 <p>{{ error }}</p>
-            </div> -->
+            </div>
         </form>
     </div>
 </template>
@@ -34,10 +34,12 @@ export default {
     methods: {
         submit() {
             // Vérifie s'il y a bien du text dans l'input
-            if (this.text == '') {
-                alert('Votre commentaire est vide.')
-            } else {
-                // S'il y en a, lance la fonction de création du commentaire sur le serveur
+            if (this.text == "") {
+                this.error = 'Votre commentaire est vide.';
+            }
+            // Vérifie que l'input est conforme
+            else if (this.checkInput()) {
+                // S'il l'est, lance la fonction de création du commentaire sur le serveur
                 this.$http.post('comments', {
                     UserId: sessionStorage.UserId,
                     PostId: this.postId,
@@ -49,11 +51,19 @@ export default {
                 .then((comment) => {
                     // Ajoute le commentaire dans le tableau comments en paramètre du post
                     this.comments.push(comment);
-                    // Vide l'input
+                    // Vide l'input et l'erreur
                     this.text = '';
+                    this.error = '';
                 })
+            } else {
+                this.error = 'Erreur: Caractère(s) non autorisé(s)';
             }
         },
+        checkInput() {
+            const testinput = /[A-Za-z0-9 éèçàêëñöùä,?;.:/!'-*+()"&]$/;
+            return testinput.test(this.text);
+
+        }
     }
 }
 </script>

@@ -43,39 +43,46 @@ export default {
     },
     methods: {
         submit() {
-            // Récupération du fichier à uploader
-            this.file = this.$refs.image.files[0];
+            // Test de l'input text
+            if (this.checkInput()) {
 
-            // Création du formulaire a envoyer dans la requête
-            const formData = new FormData();
-            if (typeof this.file != 'undefined') {
-                formData.append('image', this.file);
-
-            }
-            formData.append('UserId', sessionStorage.UserId);
-            formData.append('text', this.text);
-
-
-            // Vérification si il y a bien du texte dans le post 
-            if (this.text == '' && this.file == '') {
-                this.error = 'Votre poste est vide.';
+                // Récupération du fichier à uploader
+                this.file = this.$refs.image.files[0];
+    
+                // Création du formulaire a envoyer dans la requête
+                const formData = new FormData();
+                if (typeof this.file != 'undefined') {
+                    formData.append('image', this.file);
+    
+                }
+                formData.append('UserId', sessionStorage.UserId);
+                formData.append('text', this.text);
+    
+    
+                // Vérification si il y a bien du texte dans le post 
+                if (this.text == '' && this.file == '') {
+                    this.error = 'Votre poste est vide.';
+                } else {
+                    // S'il y a du text, lance la fonction de création de post sur le serveur
+                    this.$http.post('posts', formData)
+                    .then(res => {
+                        return res.json()
+                    })
+                    .then(post => {
+                        // Crée un paramètre comments et likes au post créé pour être conforme au modèle du composant PostCard
+                        post["comments"] = [];
+                        post["likes"] = [];
+                        // Unshift pour ajouté le post en première position du tableau de posts
+                        this.posts.unshift(post);
+                        // Vide l'input
+                        this.image = '';
+                        this.text = '';
+                        document.getElementById('post-form').reset();
+                    })
+                }
+            // Affiche une erreur en bas du composant si l'input text n'est pas conforme
             } else {
-                // S'il y a du text, lance la fonction de création de post sur le serveur
-                this.$http.post('posts', formData)
-                .then(res => {
-                    return res.json()
-                })
-                .then(post => {
-                    // Crée un paramètre comments et likes au post créé pour être conforme au modèle du composant PostCard
-                    post["comments"] = [];
-                    post["likes"] = [];
-                    // Unshift pour ajouté le post en première position du tableau de posts
-                    this.posts.unshift(post);
-                    // Vide l'input
-                    this.image = '';
-                    this.text = '';
-                    document.getElementById('post-form').reset();
-                })
+                this.error = 'Erreur: Caractère(s) non autorisé(s).'
             }
         },
         onFileChange (e) {
@@ -103,6 +110,11 @@ export default {
             document.getElementById('post-form').reset();
             // Remet le text dans le formulaire
             this.text = text;
+        },
+        checkInput() {
+            const testinput = /[A-Za-z0-9 éèçàêëñöùä,?;.:/!'-*+()"&]$/;
+            return testinput.test(this.text);
+
         }
     }
 }

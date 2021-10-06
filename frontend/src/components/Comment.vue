@@ -61,14 +61,16 @@ export default ({
     methods: {
         // Fonction de suppression de commentaire sur le serveur
         deleteComment () {
-            this.$http.delete('comments/' + this.comment.id)
-                .then(() => {
-                        this.$emit('delete-comment', {CommentId: this.comment.id});
-                    }, () => {
-                    sessionStorage.clear();
-                    this.auth = false;
-                    this.$router.push('/login');
-                })
+            if (confirm('Voulez-vous vraiment supprimer ce post ?')) {
+                this.$http.delete('comments/' + this.comment.id)
+                    .then(() => {
+                            this.$emit('delete-comment', {CommentId: this.comment.id});
+                        }, () => {
+                        sessionStorage.clear();
+                        this.auth = false;
+                        this.$router.push('/login');
+                    })
+            }
         }
     }
 })

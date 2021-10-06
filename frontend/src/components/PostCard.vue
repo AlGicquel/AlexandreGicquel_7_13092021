@@ -122,10 +122,12 @@
             },
             // supprime le post
             deletePost() {
-                this.$http.delete('posts/'+ this.postProp.id)
-                    .then(() => {
-                        this.$emit('delete-post', {PostId: this.postProp.id});
-                    });
+                if (confirm('Voulez-vous vraiment supprimer ce post ?')) {
+                    this.$http.delete('posts/'+ this.postProp.id)
+                        .then(() => {
+                            this.$emit('delete-post', {PostId: this.postProp.id});
+                        });
+                }
 
             },
             deleteCommment(payload) {
