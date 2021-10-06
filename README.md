@@ -12,6 +12,7 @@ Pour lancer le projet, suivez les instruction suivantes:
 - Executez la commande cd frontend
 - Executez la commande npm install
 - Le temps que l'installation s'éxecute, ouvrez un autre terminal (appelons-le terminal 2)
+- Accédez-y dans le teminal
 - Executez la commande cd backend
 - Executez la commande npm install
 
