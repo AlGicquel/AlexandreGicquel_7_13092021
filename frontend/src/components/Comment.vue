@@ -4,7 +4,7 @@
             <!-- Affichage du commentaire -->
             <h3>{{ this.username }}</h3>
             <p>{{comment.text}}</p>
-            <p>PostId: {{comment.PostId}}</p>
+            <!-- <p>PostId: {{comment.PostId}}</p> -->
 
             <!-- Bouton de suppression du commentaire qui ne s'affiche que si l'utilisateur en est l'autheur ou un admin -->
             <button class="btn btn-danger d-flex align-self-right"
@@ -61,7 +61,7 @@ export default ({
     methods: {
         // Fonction de suppression de commentaire sur le serveur
         deleteComment () {
-            if (confirm('Voulez-vous vraiment supprimer ce post ?')) {
+            if (confirm('Voulez-vous vraiment supprimer ce commentaire ?')) {
                 this.$http.delete('comments/' + this.comment.id)
                     .then(() => {
                             this.$emit('delete-comment', {CommentId: this.comment.id});

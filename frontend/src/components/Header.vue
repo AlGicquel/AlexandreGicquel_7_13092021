@@ -37,7 +37,7 @@
                         </li>
 
                         <!-- Dropdown for options, only contains delete user for now -->
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" v-if="this.auth">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Paramètres
                             </a>
