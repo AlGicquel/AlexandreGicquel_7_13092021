@@ -66,7 +66,7 @@
 
         },
         created() {
-            this.UserId = sessionStorage.UserId;
+            this.UserId = localStorage.UserId;
             this.userHasLiked = this.postProp.likes.includes(parseInt(this.UserId));
             // this.likes = postProp.likes;
 
@@ -75,7 +75,7 @@
                     .then(res => {
                         return res.json();
                     }, () => {
-                        sessionStorage.clear();
+                        localStorage.clear();
                         this.auth = false;
                         this.$router.push('/login');
                     })
@@ -88,7 +88,7 @@
                     .then(res => {
                         return res.json();
                     }, () => {
-                        sessionStorage.clear();
+                        localStorage.clear();
                         this.auth = false;
                         this.$router.push('/login');
                     })
@@ -140,7 +140,7 @@
             like() {
                 // if(!this.userHasLiked) {
                 //     this.$http.post('likes', {
-                //         UserId: parseInt(sessionStorage.UserId),
+                //         UserId: parseInt(localStorage.UserId),
                 //         PostId: this.postProp.id
                 //     }).then(res => {
                 //         this.postProp.likes.push(res.body.UserId);
@@ -159,7 +159,7 @@
             },
             deleteLike() {
                 if (this.userHasLiked) {
-                    // this.$http.delete('likes/' + sessionStorage.UserId + '/' + this.postProp.id)
+                    // this.$http.delete('likes/' + localStorage.UserId + '/' + this.postProp.id)
                     // .then(() => {
                     //     for (let i=0; i < this.postProp.likes.length; i++) {
                     //         if (this.postProp.likes[i] == this.UserId) {

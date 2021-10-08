@@ -41,7 +41,7 @@ export default {
             else if (this.checkInput()) {
                 // S'il l'est, lance la fonction de création du commentaire sur le serveur
                 this.$http.post('comments', {
-                    UserId: sessionStorage.UserId,
+                    UserId: localStorage.UserId,
                     PostId: this.postId,
                     text: this.text
                 })

@@ -26,7 +26,7 @@
                 this.$router.push('login');
             } else {
                 // S'il est connecté, lance la fonction de récupératon des posts dont il est l'auteur
-                this.$http.get('posts/allByUserId/' + sessionStorage.UserId)
+                this.$http.get('posts/allByUserId/' + localStorage.UserId)
                     .then(res => {
                         return res.json();
                     })

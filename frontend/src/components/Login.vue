@@ -48,8 +48,8 @@ export default {
                 password: this.password
             }).then(response => {
                 if (response.ok) {
-                    sessionStorage.UserId = response.body.UserId;
-                    sessionStorage.token = response.body.token;
+                    localStorage.UserId = response.body.UserId;
+                    localStorage.token = response.body.token;
                     // this.sendAdminAction(response.body.level);
                     this.$store.dispatch('adminAction', response.body.level)
                     this.sendAuth();

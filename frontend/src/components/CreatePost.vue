@@ -53,7 +53,7 @@ export default {
                 formData.append('image', this.file);
 
             }
-            formData.append('UserId', sessionStorage.UserId);
+            formData.append('UserId', localStorage.UserId);
             formData.append('text', this.text);
 
 

@@ -90,15 +90,15 @@
 
             // Fonction de déconnection, redirige vers login
             logout() {
-                sessionStorage.clear();
+                localStorage.clear();
                 this.auth = false;
                 this.$router.push('/login');
             },
 
             //Fonction de suppression de compte, déconnecte et redirige vers login une fois la suppression effectuée
             deleteAccount () {
-                this.$http.put('users/delete/' + sessionStorage.UserId, {
-                    UserId: sessionStorage.UserId
+                this.$http.put('users/delete/' + localStorage.UserId, {
+                    UserId: localStorage.UserId
                 })
                 .then(() => {
                     this.$router.push('/signup');
@@ -111,9 +111,9 @@
 
         // permet la conservation de l'authentification
         created () {
-            if (sessionStorage.UserId && sessionStorage.token) {
+            if (localStorage.UserId && localStorage.token) {
                 this.auth = true;
-                this.$http.get('users/levelById/' + sessionStorage.UserId)
+                this.$http.get('users/levelById/' + localStorage.UserId)
                 .then(res => {
                     this.$store.state.level = res.body.level;
                 })

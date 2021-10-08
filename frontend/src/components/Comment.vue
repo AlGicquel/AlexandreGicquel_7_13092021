@@ -39,13 +39,13 @@ export default ({
 
     },
     created() {
-        this.userId = sessionStorage.UserId;
+        this.userId = localStorage.UserId;
         // Récupère le nom de l'auteur du commentaire
         this.$http.get('users/usernameById/' + this.comment.UserId)
             .then(res => {
                 return res.json();
             }, () => {
-                sessionStorage.clear();
+                localStorage.clear();
                 this.auth = false;
                 this.$router.push('/login');
             })
@@ -53,7 +53,7 @@ export default ({
                 // Met les noms et prenoms en data
                 this.username += res.firstName + ' ' + res.lastName;
             }, () => {
-                sessionStorage.clear();
+                localStorage.clear();
                 this.auth = false;
                 this.$router.push('/login');
             })
@@ -66,7 +66,7 @@ export default ({
                     .then(() => {
                             this.$emit('delete-comment', {CommentId: this.comment.id});
                         }, () => {
-                        sessionStorage.clear();
+                        localStorage.clear();
                         this.auth = false;
                         this.$router.push('/login');
                     })
